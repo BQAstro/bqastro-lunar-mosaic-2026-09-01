@@ -1,7 +1,7 @@
 {
-  "name": "My Moon",
-  "short_name": "My Moon",
-  "description": "Offline interactive 3D Moon using my astrophotograph.",
+  "name": "BQAstro \u2014 Lunar Mosaic 2026-09-01",
+  "short_name": "BQAstro Moon",
+  "description": "BQAstro interactive lunar mosaic captured 1 September 2026, 01:50\u201302:15 SGT.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

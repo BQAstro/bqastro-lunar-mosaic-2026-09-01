@@ -1,21 +1,15 @@
-MY MOON — iPHONE PWA
+BQAstro — Lunar Mosaic | 01 Sep 2026
 
-This package contains the full 9453×9326 Moon image and an offline-capable PWA.
+Repository name:
+bqastro-lunar-mosaic-2026-09-01
 
-IMPORTANT:
-A PWA must first be served over HTTPS. You cannot get the full install/offline behavior by simply opening index.html from the iPhone Files app.
+Capture:
+01:50–02:15 SGT, 1 September 2026
+83-panel mosaic
+100 stacked frames per panel
+8,300 total source frames
+Waning Gibbous, approximately 85% illuminated
 
-After hosting the folder:
-1. Open its HTTPS address in Safari on iPhone.
-2. Tap Share.
-3. Tap Add to Home Screen.
-4. Open My Moon from the Home Screen once while online.
-5. The service worker caches the viewer and full-resolution Moon image for later offline use.
-
-Files:
-index.html
-moon_fullres.jpg
-manifest.webmanifest
-sw.js
-icon-192.png
-icon-512.png
+Viewer:
+Full-resolution 9453 × 9326 lunar texture
+Offline-capable PWA after first successful load

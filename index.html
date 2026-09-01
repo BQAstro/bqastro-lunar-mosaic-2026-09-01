@@ -1,31 +1,104 @@
-<!doctype html><html><head><meta charset="utf-8">
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#000000"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="My Moon">
-<link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest">
-<title>My Moon</title>
-<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}canvas{display:block;width:100%;height:100%;touch-action:none}#ui{position:fixed;top:calc(10px + env(safe-area-inset-top));left:14px;font-size:13px;opacity:.78;pointer-events:none;text-shadow:0 1px 3px #000}#load{position:fixed;inset:0;display:grid;place-items:center;background:#000;font-size:14px;z-index:3}</style>
-</head><body><div id="load">Loading full-resolution Moon…</div><canvas id="c"></canvas><div id="ui">My Moon · drag · pinch to zoom · double-tap reset</div>
+<meta name="apple-mobile-web-app-title" content="BQAstro Moon">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>BQAstro — Lunar Mosaic | 01 Sep 2026</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+#load{position:fixed;inset:0;display:grid;place-items:center;background:#000;font-size:14px;z-index:5}
+#header{position:fixed;top:calc(12px + env(safe-area-inset-top));left:14px;right:70px;pointer-events:none;text-shadow:0 1px 4px #000;z-index:3}
+#header .title{font-size:15px;font-weight:700;letter-spacing:.2px}
+#header .sub{font-size:12px;opacity:.8;margin-top:3px}
+#infoBtn{position:fixed;top:calc(12px + env(safe-area-inset-top));right:14px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.55);color:#fff;font-size:20px;z-index:4;backdrop-filter:blur(8px)}
+#panel{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));max-width:440px;margin:auto;background:rgba(10,10,10,.88);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:18px 18px 16px;z-index:4;backdrop-filter:blur(14px);box-shadow:0 8px 30px rgba(0,0,0,.45);display:none}
+#panel.show{display:block}
+#panel h2{margin:0 0 4px;font-size:18px}
+#panel .date{font-size:13px;opacity:.72;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:1fr auto;gap:8px 16px;font-size:13px}
+.grid div:nth-child(odd){opacity:.68}
+.note{margin-top:13px;padding-top:11px;border-top:1px solid rgba(255,255,255,.12);font-size:12px;line-height:1.45;opacity:.72}
+#hint{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;font-size:11px;opacity:.52;pointer-events:none;z-index:2}
+</style>
+</head>
+<body>
+<div id="load">Loading full-resolution lunar mosaic…</div>
+<canvas id="c"></canvas>
+
+<div id="header">
+  <div class="title">BQAstro | Waning Gibbous Moon</div>
+  <div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic</div>
+</div>
+
+<button id="infoBtn" aria-label="Observation information">ⓘ</button>
+
+<div id="panel">
+  <h2>BQAstro — Lunar Mosaic</h2>
+  <div class="date">1 September 2026 · Singapore</div>
+  <div class="grid">
+    <div>Capture time</div><div>01:50–02:15 SGT</div>
+    <div>Capture duration</div><div>25 min</div>
+    <div>Lunar phase</div><div>Waning Gibbous</div>
+    <div>Illumination</div><div>~85%</div>
+    <div>Mosaic panels</div><div>83</div>
+    <div>Frames per panel</div><div>100</div>
+    <div>Total source frames</div><div>8,300</div>
+    <div>Viewer texture</div><div>9453 × 9326</div>
+  </div>
+  <div class="note">Interactive lunar globe created from a stacked 83-panel astrophotography mosaic. Drag to rotate, pinch or scroll to zoom, and double-tap / double-click to reset.</div>
+</div>
+
+<div id="hint">drag to rotate · pinch/scroll to zoom · double-tap reset</div>
+
 <script>
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+
+const infoBtn=document.getElementById('infoBtn'),panel=document.getElementById('panel');
+infoBtn.addEventListener('click',()=>panel.classList.toggle('show'));
+
 const c=document.getElementById('c'),gl=c.getContext('webgl',{antialias:true,alpha:false});
 if(!gl){document.getElementById('load').textContent='WebGL is required.';throw 0}
+
 const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
 const fs=`precision highp float;uniform vec2 res;uniform sampler2D tex;uniform float yaw,pitch,scale;
 const float W=-91.108845,E=82.867317,S=-90.0,N=81.63675;
 vec3 ry(vec3 v,float a){float q=cos(a),s=sin(a);return vec3(q*v.x+s*v.z,v.y,-s*v.x+q*v.z);}
 vec3 rx(vec3 v,float a){float q=cos(a),s=sin(a);return vec3(v.x,q*v.y-s*v.z,s*v.y+q*v.z);}
-void main(){vec2 q=(2.*gl_FragCoord.xy-res)/min(res.x,res.y);q/=scale;float r=dot(q,q);if(r>1.){gl_FragColor=vec4(0,0,0,1);return;}vec3 v=normalize(vec3(q,sqrt(max(0.,1.-r))));v=rx(v,pitch);v=ry(v,yaw);float lon=degrees(atan(v.x,v.z)),lat=degrees(asin(clamp(v.y,-1.,1.)));if(lon<W||lon>E||lat<S||lat>N){gl_FragColor=vec4(0,0,0,1);return;}vec2 uv=vec2((lon-W)/(E-W),(N-lat)/(N-S));gl_FragColor=vec4(texture2D(tex,uv).rgb,1.);}`;
+void main(){vec2 q=(2.*gl_FragCoord.xy-res)/min(res.x,res.y);q/=scale;float r=dot(q,q);
+if(r>1.){gl_FragColor=vec4(0,0,0,1);return;}
+vec3 v=normalize(vec3(q,sqrt(max(0.,1.-r))));v=rx(v,pitch);v=ry(v,yaw);
+float lon=degrees(atan(v.x,v.z)),lat=degrees(asin(clamp(v.y,-1.,1.)));
+if(lon<W||lon>E||lat<S||lat>N){gl_FragColor=vec4(0,0,0,1);return;}
+vec2 uv=vec2((lon-W)/(E-W),(N-lat)/(N-S));gl_FragColor=vec4(texture2D(tex,uv).rgb,1.);}`;
+
 function sh(t,s){let x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(x);return x}
 let p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,vs));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);gl.useProgram(p);
-let b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);let a=gl.getAttribLocation(p,'p');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
-let tex=gl.createTexture(),img=new Image();img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);document.getElementById('load').remove();draw()};img.src='moon_fullres.jpg';
+
+let b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+let a=gl.getAttribLocation(p,'p');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
+
+let tex=gl.createTexture(),img=new Image();
+img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);document.getElementById('load').remove();draw()};
+img.src='moon_fullres.jpg';
+
 let Y=0,P=0,Z=.82;
 function draw(){let d=Math.min(devicePixelRatio||1,3),w=Math.floor(innerWidth*d),h=Math.floor(innerHeight*d);c.width=w;c.height=h;gl.viewport(0,0,w,h);gl.clearColor(0,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform2f(gl.getUniformLocation(p,'res'),w,h);gl.uniform1f(gl.getUniformLocation(p,'yaw'),Y);gl.uniform1f(gl.getUniformLocation(p,'pitch'),P);gl.uniform1f(gl.getUniformLocation(p,'scale'),Z);gl.drawArrays(gl.TRIANGLES,0,6)}
+
 let pts=new Map(),lastPinch=0,lastTap=0;
 c.addEventListener('pointerdown',e=>{c.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);let now=Date.now();if(now-lastTap<300){Y=0;P=0;Z=.82;draw()}lastTap=now});
 c.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;let old=pts.get(e.pointerId);if(pts.size===1){Y+=(e.clientX-old[0])*.008;P-=(e.clientY-old[1])*.008;P=Math.max(-1.55,Math.min(1.55,P));}pts.set(e.pointerId,[e.clientX,e.clientY]);if(pts.size===2){let v=[...pts.values()],d=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]);if(lastPinch)Z=Math.max(.2,Math.min(40,Z*d/lastPinch));lastPinch=d}else lastPinch=0;draw()});
-c.addEventListener('pointerup',e=>{pts.delete(e.pointerId);lastPinch=0});c.addEventListener('pointercancel',e=>{pts.delete(e.pointerId);lastPinch=0});
-c.addEventListener('wheel',e=>{e.preventDefault();Z=Math.max(.2,Math.min(40,Z*Math.exp(-e.deltaY*.0015)));draw()},{passive:false});addEventListener('resize',draw);
-</script></body></html>
+c.addEventListener('pointerup',e=>{pts.delete(e.pointerId);lastPinch=0});
+c.addEventListener('pointercancel',e=>{pts.delete(e.pointerId);lastPinch=0});
+c.addEventListener('wheel',e=>{e.preventDefault();Z=Math.max(.2,Math.min(40,Z*Math.exp(-e.deltaY*.0015)));draw()},{passive:false});
+addEventListener('resize',draw);
+</script>
+</body>
+</html>
