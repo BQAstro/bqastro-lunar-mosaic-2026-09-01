@@ -1,9 +1,10 @@
-BQAstro Lunar Globe — Version 4.0.1
+BQAstro Lunar Globe — Version 4.0.2
 
 HOTFIX
-- Fixed v4.0 startup JavaScript/WebGL shader bug that left the viewer on the loading screen.
-- Added an explicit moon texture load error message.
-- Retains all v4.0 features, 55 labels, filters, feature cards, Moon facts, translucent UI and mobile pinch fix.
-- Service worker cache bumped to v4.0.1.
+- Fixed the remaining startup error: updateLabels() referenced undefined W/E/S/N geographic constants.
+- Added visible global JavaScript error reporting instead of an endless Loading screen.
+- Added texture cache-busting for this deployment.
+- Retains all v4.0 features and the v4.0.1 shader fix.
+- Cache bumped to v4.0.2.
 
-Replace the existing GitHub repository files with these files.
+Replace the existing repository files with these files and commit.
