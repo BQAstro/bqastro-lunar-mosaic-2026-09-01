@@ -1,10 +1,12 @@
-BQAstro Lunar Globe — Version 4.0.4
+BQAstro Lunar Globe — Version 4.0.6
 
-LABEL ANCHOR HOTFIX
-- Every label marker is now the true coordinate anchor.
-- The marker itself is centered exactly on the lunar feature position.
-- Label text is offset from the marker, so the marker stays fixed while zooming/rotating.
-- Apollo landing sites use a centered star marker.
-- Other features use centered colored dot markers.
-- Retains v4.0.3 drag direction and label projection fixes.
-- Cache bumped to v4.0.4.
+GRID / ORIENTATION UPDATE
+- Added toggleable lunar coordinate grid.
+- Latitude lines every 15 degrees.
+- Longitude lines every 15 degrees.
+- Equator and prime meridian shown slightly stronger.
+- Added N / S / E / W directional markers.
+- Grid follows globe rotation and zoom.
+- Grid button is independent from Labels.
+- Retains portrait mode and reduced touch sensitivity from v4.0.5.
+- Cache bumped to v4.0.6.

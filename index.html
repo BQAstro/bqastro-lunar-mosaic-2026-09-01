@@ -2,11 +2,11 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#000"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
-<title>BQAstro Lunar Globe — v4.0.4</title>
+<title>BQAstro Lunar Globe — v4.0.6</title>
 <style>
 :root{--gold:#f5c84c;--line:rgba(255,255,255,.16);--glass:rgba(8,10,13,.48);--glass2:rgba(8,10,13,.72);--muted:#aeb5bf}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
 #loading{position:fixed;inset:0;display:grid;place-items:center;background:#000;z-index:50;font-size:13px;color:#cfd3da}
 .top{position:fixed;left:18px;right:18px;top:calc(13px + env(safe-area-inset-top));display:flex;align-items:flex-start;justify-content:space-between;z-index:10;pointer-events:none}
 .brand{pointer-events:none;text-shadow:0 2px 8px #000}.brand b{font-size:20px}.brand .phase{color:var(--gold);font-weight:600}.brand .sub{font-size:11px;color:#c7cbd2;margin-top:4px}
@@ -27,25 +27,78 @@ h3{font-size:12px;font-weight:600;letter-spacing:.04em;margin:0 0 11px;color:#e4
 .labelText{position:absolute;left:50%;top:50%;transform:translate(9px,-50%);padding:2px 4px;border-radius:5px;background:rgba(0,0,0,.10);color:#fff}
 .footer{position:fixed;left:0;right:0;bottom:0;height:38px;padding-bottom:env(safe-area-inset-bottom);display:flex;justify-content:center;align-items:center;gap:25px;background:rgba(4,5,7,.38);border-top:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px);z-index:8;color:#aeb5bf;font-size:10px;pointer-events:none}
 @media(max-width:700px){.brand b{font-size:16px}.brand .sub{font-size:9px}.top{left:10px;right:10px}.btn{padding:8px 9px}.actions .word{display:none}#info{left:10px;right:10px;top:68px;width:auto;max-height:65vh}#filters{left:10px;right:10px;bottom:47px;width:auto}.footer{gap:12px;font-size:8px}.footer span:nth-child(2){display:none}.lab{font-size:9px}#detail{left:10px;bottom:47px;width:calc(100vw - 20px)}.stats{grid-template-columns:repeat(2,1fr)}}
+
+@media (orientation:portrait){
+  .top{
+    left:10px;right:10px;
+    top:calc(9px + env(safe-area-inset-top));
+    align-items:flex-start;
+  }
+  .brand{max-width:calc(100vw - 105px)}
+  .brand b{font-size:15px}
+  .brand .phase{font-size:13px}
+  .brand .sub{font-size:8.5px;line-height:1.3;max-width:74vw}
+  .actions{gap:5px}
+  .btn{padding:7px 8px;border-radius:9px;font-size:11px}
+
+  #info{
+    left:8px;right:8px;top:66px;width:auto;
+    max-height:calc(100vh - 132px);
+    padding:13px;
+  }
+  #filters{
+    left:8px;right:8px;bottom:50px;width:auto;
+    padding:10px;
+    max-height:42vh;
+    overflow:auto;
+  }
+  #detail{
+    left:8px;right:8px;bottom:50px;
+    width:auto;
+    padding:12px 14px;
+    max-height:42vh;
+    overflow:auto;
+  }
+  .filterGrid{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .footer{
+    height:34px;
+    gap:9px;
+    padding-left:8px;padding-right:8px;
+    font-size:7.5px;
+    white-space:nowrap;
+  }
+  .footer span:nth-child(2){display:none}
+  .footer span:nth-child(5){display:none}
+  .lab{font-size:8.5px}
+  .labelText{transform:translate(8px,-50%);padding:1px 3px}
+}
+
+
+#gridCanvas{position:fixed;inset:0;width:100%;height:100%;display:block;pointer-events:none;z-index:6}
+#cardinals{position:fixed;inset:0;pointer-events:none;z-index:7;display:none}
+#cardinals.show{display:block}
+.cardinal{position:absolute;transform:translate(-50%,-50%);font-size:11px;font-weight:700;color:#e8ebef;text-shadow:0 1px 5px #000,0 0 4px #000;background:rgba(0,0,0,.18);padding:2px 5px;border-radius:5px}
+
 </style><script>
 window.addEventListener('error',function(e){
   var box=document.getElementById('loading');
   if(box){box.innerHTML='<div style="max-width:680px;padding:24px;text-align:center"><b style="color:#f5c84c">BQAstro viewer error</b><br><br><span style="color:#ddd">'+
   String(e.message||'Unknown JavaScript error').replace(/</g,'&lt;')+
-  '</span><br><br><small style="color:#888">Version 4.0.4</small></div>';}
+  '</span><br><br><small style="color:#888">Version 4.0.6</small></div>';}
 });
 window.addEventListener('unhandledrejection',function(e){
   var box=document.getElementById('loading');
   if(box) box.textContent='BQAstro viewer error: '+String(e.reason||'Unhandled promise rejection');
 });
 </script></head><body>
-<div id="loading">Loading full-resolution BQAstro lunar mosaic…</div><canvas id="c"></canvas><div id="labels"></div>
-<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon</span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.4</div></div>
-<div class="actions"><button class="btn" id="infoBtn">ⓘ <span class="word">Info</span></button><button class="btn" id="labelBtn">🏷 <span class="word">Labels</span></button></div></div>
+<div id="loading">Loading full-resolution BQAstro lunar mosaic…</div><canvas id="c"></canvas><canvas id="gridCanvas"></canvas><div id="cardinals"></div><div id="labels"></div>
+<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon</span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.6</div></div>
+<div class="actions"><button class="btn" id="infoBtn">ⓘ <span class="word">Info</span></button><button class="btn" id="labelBtn">🏷 <span class="word">Labels</span></button><button class="btn" id="gridBtn">⌖ <span class="word">Grid</span></button></div></div>
 <div class="panel" id="info"><h3>OBSERVATION INFO</h3><div class="rows">
 <span>Photographer</span><span>BQAstro</span><span>Date</span><span>01 Sep 2026</span><span>Capture</span><span>01:50–02:15 SGT</span><span>Phase</span><span>Waning Gibbous</span><span>Illumination</span><span>~85%</span><span>Duration</span><span>25 min</span><span>Mosaic</span><span>83 panels</span><span>Frames / panel</span><span>100</span><span>Source frames</span><span>8,300</span><span>Texture</span><span>9453 × 9326</span></div>
 <hr><h3>MOON FACTS</h3><div class="fact">Mean radius: 1,737.4 km</div><div class="fact">Diameter: 3,474.8 km</div><div class="fact">Surface gravity: 1.62 m/s²</div><div class="fact">Average Earth distance: ~384,400 km</div><div class="fact">Sidereal orbital period: 27.32 days</div><div class="fact">Synodic phase cycle: 29.53 days</div><div class="fact">Escape velocity: 2.38 km/s</div><div class="fact">No substantial atmosphere</div><div class="small">The Moon rotates synchronously with its orbit around Earth, so approximately the same hemisphere normally faces Earth. Libration lets us see somewhat more than half of the lunar surface over time.</div>
-<hr><div class="small">BQAstro Lunar Globe<br><span class="version">Version 4.0.4</span><br>© 2026 BQAstro</div></div>
+<hr><div class="small">BQAstro Lunar Globe<br><span class="version">Version 4.0.6</span><br>© 2026 BQAstro</div></div>
 <div class="panel" id="filters"><h3>LABELS</h3><div class="filterGrid">
 <button class="chip active" data-cat="All">All</button><button class="chip" data-cat="Maria / Basin">Maria</button><button class="chip" data-cat="Crater">Craters</button>
 <button class="chip" data-cat="Mountain Range">Mountains</button><button class="chip" data-cat="Rilles / Valleys">Rilles / Valleys</button><button class="chip" data-cat="Apollo Landing Site">Apollo</button>
@@ -67,8 +120,13 @@ void main(){vec2 q=(2.*gl_FragCoord.xy-res)/min(res.x,res.y);q/=scale;float r=do
 function shader(t,s){let x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(x);return x}
 let prog=gl.createProgram();gl.attachShader(prog,shader(gl.VERTEX_SHADER,vs));gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);gl.useProgram(prog);
 let buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);let ap=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(ap);gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
-let tex=gl.createTexture(),img=new Image();img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);document.getElementById('loading').remove();draw()};img.onerror=()=>{document.getElementById('loading').textContent='Could not load moon_fullres.jpg — check the GitHub upload and filename.';};img.src='moon_fullres.jpg?v=4.0.4';
-let Y=0,P=0,Z=.82,labelsOn=false,currentCat='All',density=1;
+let tex=gl.createTexture(),img=new Image();img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);document.getElementById('loading').remove();draw()};img.onerror=()=>{document.getElementById('loading').textContent='Could not load moon_fullres.jpg — check the GitHub upload and filename.';};img.src='moon_fullres.jpg?v=4.0.6';
+function defaultZoom(){return innerHeight>innerWidth ? 0.72 : 0.82}
+let Y=0,P=0,Z=defaultZoom(),labelsOn=false,currentCat='All',density=1,gridOn=false;
+const gridCanvas=document.getElementById('gridCanvas'),gctx=gridCanvas.getContext('2d');
+const cardinals=document.getElementById('cardinals');
+const cardinalDefs=[{name:'N',lat:90,lon:0},{name:'S',lat:-90,lon:0},{name:'E',lat:0,lon:90},{name:'W',lat:0,lon:-90}];
+cardinalDefs.forEach(o=>{let e=document.createElement('div');e.className='cardinal';e.textContent=o.name;o.el=e;cardinals.appendChild(e)});
 const layer=document.getElementById('labels');
 FEATURES.forEach(f=>{
       let e=document.createElement('div');
@@ -88,6 +146,63 @@ FEATURES.forEach(f=>{
 function fmt(v,pos,neg){return Math.abs(v).toFixed(Math.abs(v)<10?2:1)+'° '+(v>=0?pos:neg)}
 function showDetail(f){document.getElementById('dname').textContent=f.name;document.getElementById('dtype').textContent=f.category;document.getElementById('dsize').textContent=f.size;document.getElementById('dwidth').textContent=f.width;document.getElementById('dlat').textContent=fmt(f.lat,'N','S');document.getElementById('dlon').textContent=fmt(f.lon,'E','W');document.getElementById('dwhy').textContent=f.why;document.getElementById('detail').classList.add('show')}
 document.getElementById('closeDetail').onclick=()=>document.getElementById('detail').classList.remove('show');
+
+function lunarToScreen(lat,lon){
+  const r=c.getBoundingClientRect(),w=r.width,h=r.height,m=Math.min(w,h);
+  const cy=Math.cos(-P),sy=Math.sin(-P),cz=Math.cos(-Y),sz=Math.sin(-Y);
+  const lo=lon*Math.PI/180,la=lat*Math.PI/180;
+  const lx=Math.cos(la)*Math.sin(lo),ly=Math.sin(la),lz=Math.cos(la)*Math.cos(lo);
+  const x1=cz*lx+sz*lz;
+  const z1=-sz*lx+cz*lz;
+  const y2=cy*ly-sy*z1;
+  const z2=sy*ly+cy*z1;
+  return {x:r.left+w/2+(x1*Z*m)/2,y:r.top+h/2-(y2*Z*m)/2,z:z2};
+}
+function drawGrid(){
+  const d=Math.min(devicePixelRatio||1,3),rw=Math.floor(innerWidth*d),rh=Math.floor(innerHeight*d);
+  if(gridCanvas.width!==rw||gridCanvas.height!==rh){gridCanvas.width=rw;gridCanvas.height=rh}
+  gctx.setTransform(d,0,0,d,0,0);
+  gctx.clearRect(0,0,innerWidth,innerHeight);
+  if(!gridOn){cardinals.classList.remove('show');return}
+  cardinals.classList.add('show');
+  gctx.lineWidth=0.7;
+  gctx.strokeStyle='rgba(220,228,238,.28)';
+
+  const drawPath=(pts)=>{
+    let open=false; gctx.beginPath();
+    for(const p of pts){
+      if(p.z<=0){open=false;continue}
+      if(!open){gctx.moveTo(p.x,p.y);open=true}else gctx.lineTo(p.x,p.y);
+    }
+    gctx.stroke();
+  };
+
+  // Longitude lines every 15°
+  for(let lon=-75;lon<=75;lon+=15){
+    let pts=[];
+    for(let lat=-85;lat<=85;lat+=2) pts.push(lunarToScreen(lat,lon));
+    drawPath(pts);
+  }
+  // Latitude lines every 15°
+  for(let lat=-75;lat<=75;lat+=15){
+    let pts=[];
+    for(let lon=-90;lon<=90;lon+=2) pts.push(lunarToScreen(lat,lon));
+    drawPath(pts);
+  }
+
+  // Slightly stronger equator / prime meridian
+  gctx.lineWidth=1.0;
+  gctx.strokeStyle='rgba(240,244,248,.42)';
+  let eq=[]; for(let lon=-90;lon<=90;lon+=2) eq.push(lunarToScreen(0,lon)); drawPath(eq);
+  let pm=[]; for(let lat=-85;lat<=85;lat+=2) pm.push(lunarToScreen(lat,0)); drawPath(pm);
+
+  cardinalDefs.forEach(o=>{
+    const p=lunarToScreen(o.lat,o.lon);
+    o.el.style.display=p.z>0?'block':'none';
+    if(p.z>0){o.el.style.left=p.x+'px';o.el.style.top=p.y+'px'}
+  });
+}
+
 function updateLabels(){
  const r=c.getBoundingClientRect(), w=r.width, h=r.height, m=Math.min(w,h);
  const cy=Math.cos(-P),sy=Math.sin(-P),cz=Math.cos(-Y),sz=Math.sin(-Y);
@@ -115,15 +230,29 @@ function updateLabels(){
    }
  });
 }
-function draw(){let d=Math.min(devicePixelRatio||1,3),w=Math.floor(innerWidth*d),h=Math.floor(innerHeight*d);if(c.width!==w||c.height!==h){c.width=w;c.height=h}gl.viewport(0,0,w,h);gl.clearColor(0,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform2f(gl.getUniformLocation(prog,'res'),w,h);gl.uniform1f(gl.getUniformLocation(prog,'yaw'),Y);gl.uniform1f(gl.getUniformLocation(prog,'pitch'),P);gl.uniform1f(gl.getUniformLocation(prog,'scale'),Z);gl.drawArrays(gl.TRIANGLES,0,6);updateLabels()}
+function draw(){let d=Math.min(devicePixelRatio||1,3),w=Math.floor(innerWidth*d),h=Math.floor(innerHeight*d);if(c.width!==w||c.height!==h){c.width=w;c.height=h}gl.viewport(0,0,w,h);gl.clearColor(0,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform2f(gl.getUniformLocation(prog,'res'),w,h);gl.uniform1f(gl.getUniformLocation(prog,'yaw'),Y);gl.uniform1f(gl.getUniformLocation(prog,'pitch'),P);gl.uniform1f(gl.getUniformLocation(prog,'scale'),Z);gl.drawArrays(gl.TRIANGLES,0,6);drawGrid();updateLabels()}
 document.getElementById('infoBtn').onclick=()=>document.getElementById('info').classList.toggle('show');
 document.getElementById('labelBtn').onclick=function(){labelsOn=!labelsOn;this.classList.toggle('on',labelsOn);document.getElementById('filters').classList.toggle('show',labelsOn);updateLabels()};
+document.getElementById('gridBtn').onclick=function(){gridOn=!gridOn;this.classList.toggle('on',gridOn);drawGrid()};
 document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentCat=b.dataset.cat;updateLabels()});
 document.getElementById('density').oninput=e=>{density=+e.target.value;document.getElementById('densityText').textContent=density===1?'MAJOR':'ALL';updateLabels()};
 let pts=new Map(),lastPinch=0,gestureWasMulti=false,tapStart=null,lastTapTime=0;
 c.addEventListener('pointerdown',e=>{c.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);if(pts.size===1){gestureWasMulti=false;tapStart={x:e.clientX,y:e.clientY,t:Date.now(),id:e.pointerId}}else{gestureWasMulti=true;tapStart=null;lastPinch=0}});
-c.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;let old=pts.get(e.pointerId),dx=e.clientX-old[0],dy=e.clientY-old[1];pts.set(e.pointerId,[e.clientX,e.clientY]);if(pts.size===1&&!gestureWasMulti){Y-=dx*.008;P-=dy*.008;P=Math.max(-1.55,Math.min(1.55,P))}if(pts.size===2){gestureWasMulti=true;tapStart=null;let v=[...pts.values()],d=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]);if(lastPinch)Z=Math.max(.2,Math.min(40,Z*d/lastPinch));lastPinch=d}else lastPinch=0;draw()});
-c.addEventListener('pointerup',e=>{let now=Date.now();if(!gestureWasMulti&&tapStart&&tapStart.id===e.pointerId){let moved=Math.hypot(e.clientX-tapStart.x,e.clientY-tapStart.y);if(moved<12&&now-tapStart.t<300){if(now-lastTapTime<350){Y=0;P=0;Z=.82;lastTapTime=0;draw()}else lastTapTime=now}}pts.delete(e.pointerId);lastPinch=0;if(pts.size===0){gestureWasMulti=false;tapStart=null}});
+c.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;let old=pts.get(e.pointerId),dx=e.clientX-old[0],dy=e.clientY-old[1];pts.set(e.pointerId,[e.clientX,e.clientY]);if(pts.size===1&&!gestureWasMulti){
+      const sens=(e.pointerType==='touch')?0.0042:0.008;
+      Y-=dx*sens;
+      P-=dy*sens;
+      P=Math.max(-1.55,Math.min(1.55,P));
+    }if(pts.size===2){gestureWasMulti=true;tapStart=null;let v=[...pts.values()],d=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]);if(lastPinch)Z=Math.max(.2,Math.min(40,Z*d/lastPinch));lastPinch=d}else lastPinch=0;draw()});
+c.addEventListener('pointerup',e=>{let now=Date.now();if(!gestureWasMulti&&tapStart&&tapStart.id===e.pointerId){let moved=Math.hypot(e.clientX-tapStart.x,e.clientY-tapStart.y);if(moved<12&&now-tapStart.t<300){if(now-lastTapTime<350){Y=0;P=0;Z=defaultZoom();lastTapTime=0;draw()}else lastTapTime=now}}pts.delete(e.pointerId);lastPinch=0;if(pts.size===0){gestureWasMulti=false;tapStart=null}});
 c.addEventListener('pointercancel',e=>{pts.delete(e.pointerId);lastPinch=0;if(!pts.size){gestureWasMulti=false;tapStart=null}});
-c.addEventListener('dblclick',()=>{Y=0;P=0;Z=.82;draw()});c.addEventListener('wheel',e=>{e.preventDefault();Z=Math.max(.2,Math.min(40,Z*Math.exp(-e.deltaY*.0015)));draw()},{passive:false});addEventListener('resize',draw);
+c.addEventListener('dblclick',()=>{Y=0;P=0;Z=defaultZoom();draw()});c.addEventListener('wheel',e=>{e.preventDefault();Z=Math.max(.2,Math.min(40,Z*Math.exp(-e.deltaY*.0015)));draw()},{passive:false});let lastOrientationPortrait=innerHeight>innerWidth;
+addEventListener('resize',()=>{
+  const nowPortrait=innerHeight>innerWidth;
+  if(nowPortrait!==lastOrientationPortrait){
+    Z=defaultZoom();
+    lastOrientationPortrait=nowPortrait;
+  }
+  draw();
+});
 </script></body></html>
