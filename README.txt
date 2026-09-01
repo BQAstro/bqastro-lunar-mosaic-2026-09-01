@@ -1,4 +1,5 @@
-BQAstro Lunar Globe — v4.0.20
-- Moon phase ? guide with eight phases and symbols.
-- Info opens on initial load.
-- Added image capture/mosaic explanation.
+BQAstro Lunar Globe — v4.0.21
+- Removed redundant feature-description lead-ins.
+- Rewrote all six Apollo descriptions.
+- Fixed and strengthened visibility of Moon-phase ? button.
+- Fixed Info panel auto-open using DOMContentLoaded/readyState plus both supported open-state classes.
