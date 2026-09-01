@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000000"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="My Moon">
+<link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest">
+<title>My Moon</title>
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}canvas{display:block;width:100%;height:100%;touch-action:none}#ui{position:fixed;top:calc(10px + env(safe-area-inset-top));left:14px;font-size:13px;opacity:.78;pointer-events:none;text-shadow:0 1px 3px #000}#load{position:fixed;inset:0;display:grid;place-items:center;background:#000;font-size:14px;z-index:3}</style>
+</head><body><div id="load">Loading full-resolution Moon…</div><canvas id="c"></canvas><div id="ui">My Moon · drag · pinch to zoom · double-tap reset</div>
+<script>
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+const c=document.getElementById('c'),gl=c.getContext('webgl',{antialias:true,alpha:false});
+if(!gl){document.getElementById('load').textContent='WebGL is required.';throw 0}
+const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+const fs=`precision highp float;uniform vec2 res;uniform sampler2D tex;uniform float yaw,pitch,scale;
+const float W=-91.108845,E=82.867317,S=-90.0,N=81.63675;
+vec3 ry(vec3 v,float a){float q=cos(a),s=sin(a);return vec3(q*v.x+s*v.z,v.y,-s*v.x+q*v.z);}
+vec3 rx(vec3 v,float a){float q=cos(a),s=sin(a);return vec3(v.x,q*v.y-s*v.z,s*v.y+q*v.z);}
+void main(){vec2 q=(2.*gl_FragCoord.xy-res)/min(res.x,res.y);q/=scale;float r=dot(q,q);if(r>1.){gl_FragColor=vec4(0,0,0,1);return;}vec3 v=normalize(vec3(q,sqrt(max(0.,1.-r))));v=rx(v,pitch);v=ry(v,yaw);float lon=degrees(atan(v.x,v.z)),lat=degrees(asin(clamp(v.y,-1.,1.)));if(lon<W||lon>E||lat<S||lat>N){gl_FragColor=vec4(0,0,0,1);return;}vec2 uv=vec2((lon-W)/(E-W),(N-lat)/(N-S));gl_FragColor=vec4(texture2D(tex,uv).rgb,1.);}`;
+function sh(t,s){let x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(x);return x}
+let p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,vs));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);gl.useProgram(p);
+let b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);let a=gl.getAttribLocation(p,'p');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
+let tex=gl.createTexture(),img=new Image();img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);document.getElementById('load').remove();draw()};img.src='moon_fullres.jpg';
+let Y=0,P=0,Z=.82;
+function draw(){let d=Math.min(devicePixelRatio||1,3),w=Math.floor(innerWidth*d),h=Math.floor(innerHeight*d);c.width=w;c.height=h;gl.viewport(0,0,w,h);gl.clearColor(0,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform2f(gl.getUniformLocation(p,'res'),w,h);gl.uniform1f(gl.getUniformLocation(p,'yaw'),Y);gl.uniform1f(gl.getUniformLocation(p,'pitch'),P);gl.uniform1f(gl.getUniformLocation(p,'scale'),Z);gl.drawArrays(gl.TRIANGLES,0,6)}
+let pts=new Map(),lastPinch=0,lastTap=0;
+c.addEventListener('pointerdown',e=>{c.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);let now=Date.now();if(now-lastTap<300){Y=0;P=0;Z=.82;draw()}lastTap=now});
+c.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;let old=pts.get(e.pointerId);if(pts.size===1){Y+=(e.clientX-old[0])*.008;P-=(e.clientY-old[1])*.008;P=Math.max(-1.55,Math.min(1.55,P));}pts.set(e.pointerId,[e.clientX,e.clientY]);if(pts.size===2){let v=[...pts.values()],d=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]);if(lastPinch)Z=Math.max(.2,Math.min(40,Z*d/lastPinch));lastPinch=d}else lastPinch=0;draw()});
+c.addEventListener('pointerup',e=>{pts.delete(e.pointerId);lastPinch=0});c.addEventListener('pointercancel',e=>{pts.delete(e.pointerId);lastPinch=0});
+c.addEventListener('wheel',e=>{e.preventDefault();Z=Math.max(.2,Math.min(40,Z*Math.exp(-e.deltaY*.0015)));draw()},{passive:false});addEventListener('resize',draw);
+</script></body></html>
