@@ -1,10 +1,14 @@
-BQAstro Lunar Globe — Version 4.0.11
+BQAstro Lunar Globe — Version 4.0.12
 
-MEASURING TOOL
-- Toggle Measure mode from the top controls.
-- Tap/click two points on the Moon to measure lunar surface distance.
-- Great-circle calculation uses the Moon mean radius of 1,737.4 km.
-- Shows both endpoint coordinates and distance in kilometres.
-- Measurement points and line remain anchored while rotating and zooming.
-- A third tap starts a new measurement.
-- Works on desktop and phone/portrait mode.
+FEATURE / HISTORY UPDATE
+- Added Moretus crater.
+- Added an Age field to every lunar feature.
+- Where a robust numerical age is available, an approximate numerical age is shown.
+- Otherwise the broad lunar geologic period is shown.
+- Features with uncertain/debated ages are explicitly identified rather than given false precision.
+- Apollo landing sites show their historical landing date and UTC time.
+- Renamed the Apollo label group to “Apollo Program”.
+- Historic remains a separate category for human-history-related lunar locations/regions that are not the six Apollo landing-site markers.
+
+Apollo landing times are based on NASA/Apollo Lunar Surface Journal mission chronology.
+Retains measuring tool, grid, live scale/coordinates, portrait support, and automatic cache/update architecture.
