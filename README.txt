@@ -1,14 +1,12 @@
-BQAstro Lunar Globe — Version 4.0.15
+BQAstro Lunar Globe — Version 4.0.16
 
-SANITY-CHECKED UI / EXPLORATION UPDATE
-- Renamed “Labels” to “Features” and panel title to “Lunar Features”.
-- “Label density” renamed to “Shown features”: MAJOR shows key landmarks, ALL includes secondary/smaller entries.
-- Added standalone “Future Exploration” feature group.
-- Added NASA’s nine refined Artemis south-pole candidate landing regions as region markers.
-- Added Artemis IV, Artemis V, and a general NASA Moon Base South Pole marker. These are explicitly marked as planned/general where exact sites are not selected.
-- Added periodic, non-intrusive bottom-left Moon fun-fact cards. First appears after 25 s, then roughly every 45–75 s; each auto-hides after 10 s and is dismissible.
-- Age strings use plain-English “million years ago” / “billion years ago” where numerical ages are present.
-- Added ? beside Age with concise lunar geologic-period explanation and Ga/Ma/ka definitions.
-- Apollo Program entries no longer display an Age field; landing date/time remains.
-- Future Exploration and Historic human-exploration entries also hide geological Age because it is not meaningful for those labels.
-- Retains crosshair, Ina expansion, measuring tool, grid, live scale/coordinates, Fun Facts, Moretus and mobile support.
+SANITY-CHECKED AGE / RESOURCES UPDATE
+- Added helpful links: LROC QuickMap, NASA Daily Moon Guide and NASA Moon Trek.
+- Every feature card also has an LROC closer-look link centered on that feature plus Daily Moon Guide.
+- Age help popup now opens to the right of the Age field on desktop; on narrow phones it opens safely inside the viewport.
+- Added concise explanation of “Imbrian mare volcanism”.
+- Audited Age values so the field contains age/time information only, not morphology/process descriptions.
+- Numerical ages are expressed in millions/billions of years.
+- Where only a broad lunar period is defensible, the corresponding numerical period range is shown.
+- Where no reliable numerical age is established, the viewer says so rather than inventing precision.
+- Apollo Program, Historic and Future Exploration entries continue to hide geological Age.
