@@ -1,4 +1,4 @@
-const CACHE='bqastro-lunar-globe-v4.0.8';
+const CACHE='bqastro-lunar-globe-v4.0.10';
 const CORE=['./moon_fullres.jpg','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 
 self.addEventListener('install',event=>{

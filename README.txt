@@ -1,20 +1,8 @@
-BQAstro Lunar Globe — Version 4.0.8
+BQAstro Lunar Globe — Version 4.0.10
 
-FEATURE LABEL UPDATE
-Added/promoted visible Major labels for:
-- Byrgius
-- Montes Recti
-- Mons Pico
-- Mons Piton
-- Archimedes
-- Aristoteles
-- Montes Caucasus
-- Eudoxus
-- Posidonius
-- Rima Cauchy
-- Rupes Cauchy
-- Cauchy crater
-- Schiller
-
-New coordinate entries use lunar feature center coordinates from the USGS Gazetteer of Planetary Nomenclature.
-Retains v4.0.7 coordinate-grid labels and automatic cache/update architecture.
+LIVE SCALE READOUT
+- Added live scale information to the View HUD.
+- Scale is shown as the approximate number of kilometres across the current view.
+- Scale updates continuously as the user zooms in and out.
+- Zoom multiplier and camera-center lunar coordinates remain displayed.
+- Retains all v4.0.9 features and automatic update/cache architecture.
