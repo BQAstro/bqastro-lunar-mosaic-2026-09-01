@@ -1,10 +1,8 @@
-BQAstro Lunar Globe — Version 4.0.2
+BQAstro Lunar Globe — Version 4.0.3
 
-HOTFIX
-- Fixed the remaining startup error: updateLabels() referenced undefined W/E/S/N geographic constants.
-- Added visible global JavaScript error reporting instead of an endless Loading screen.
-- Added texture cache-busting for this deployment.
-- Retains all v4.0 features and the v4.0.1 shader fix.
-- Cache bumped to v4.0.2.
-
-Replace the existing repository files with these files and commit.
+MOBILE CONTROL / LABEL HOTFIX
+- Reversed horizontal drag direction so dragging right rotates the lunar globe left, like a physical globe.
+- Reworked label projection using the canvas CSS bounding rectangle and the same camera geometry as the WebGL sphere.
+- This keeps feature markers visually locked to their lunar coordinates while zooming.
+- Retains v4.0.2 startup/error fixes and all v4 features.
+- Cache bumped to v4.0.3.
