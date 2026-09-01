@@ -2,7 +2,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#000"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
-<title>BQAstro Lunar Globe — v4.0.6</title>
+<title>BQAstro Lunar Globe — v4.0.7</title>
 <style>
 :root{--gold:#f5c84c;--line:rgba(255,255,255,.16);--glass:rgba(8,10,13,.48);--glass2:rgba(8,10,13,.72);--muted:#aeb5bf}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -80,25 +80,32 @@ h3{font-size:12px;font-weight:600;letter-spacing:.04em;margin:0 0 11px;color:#e4
 #cardinals.show{display:block}
 .cardinal{position:absolute;transform:translate(-50%,-50%);font-size:11px;font-weight:700;color:#e8ebef;text-shadow:0 1px 5px #000,0 0 4px #000;background:rgba(0,0,0,.18);padding:2px 5px;border-radius:5px}
 
+
+#gridLabels{position:fixed;inset:0;pointer-events:none;z-index:7;display:none}
+#gridLabels.show{display:block}
+.gridCoord{position:absolute;transform:translate(-50%,-50%);font-size:8px;font-weight:600;color:rgba(235,240,246,.82);text-shadow:0 1px 4px #000,0 0 3px #000;background:rgba(0,0,0,.16);padding:1px 3px;border-radius:4px;white-space:nowrap}
+.gridCoord.major{font-size:9px;font-weight:700;color:rgba(255,255,255,.94);background:rgba(0,0,0,.22)}
+@media (orientation:portrait){.gridCoord{font-size:7px}.gridCoord.major{font-size:8px}}
+
 </style><script>
 window.addEventListener('error',function(e){
   var box=document.getElementById('loading');
   if(box){box.innerHTML='<div style="max-width:680px;padding:24px;text-align:center"><b style="color:#f5c84c">BQAstro viewer error</b><br><br><span style="color:#ddd">'+
   String(e.message||'Unknown JavaScript error').replace(/</g,'&lt;')+
-  '</span><br><br><small style="color:#888">Version 4.0.6</small></div>';}
+  '</span><br><br><small style="color:#888">Version 4.0.7</small></div>';}
 });
 window.addEventListener('unhandledrejection',function(e){
   var box=document.getElementById('loading');
   if(box) box.textContent='BQAstro viewer error: '+String(e.reason||'Unhandled promise rejection');
 });
 </script></head><body>
-<div id="loading">Loading full-resolution BQAstro lunar mosaic…</div><canvas id="c"></canvas><canvas id="gridCanvas"></canvas><div id="cardinals"></div><div id="labels"></div>
-<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon</span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.6</div></div>
+<div id="loading">Loading full-resolution BQAstro lunar mosaic…</div><canvas id="c"></canvas><canvas id="gridCanvas"></canvas><div id="gridLabels"></div><div id="cardinals"></div><div id="labels"></div>
+<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon</span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.7</div></div>
 <div class="actions"><button class="btn" id="infoBtn">ⓘ <span class="word">Info</span></button><button class="btn" id="labelBtn">🏷 <span class="word">Labels</span></button><button class="btn" id="gridBtn">⌖ <span class="word">Grid</span></button></div></div>
 <div class="panel" id="info"><h3>OBSERVATION INFO</h3><div class="rows">
 <span>Photographer</span><span>BQAstro</span><span>Date</span><span>01 Sep 2026</span><span>Capture</span><span>01:50–02:15 SGT</span><span>Phase</span><span>Waning Gibbous</span><span>Illumination</span><span>~85%</span><span>Duration</span><span>25 min</span><span>Mosaic</span><span>83 panels</span><span>Frames / panel</span><span>100</span><span>Source frames</span><span>8,300</span><span>Texture</span><span>9453 × 9326</span></div>
 <hr><h3>MOON FACTS</h3><div class="fact">Mean radius: 1,737.4 km</div><div class="fact">Diameter: 3,474.8 km</div><div class="fact">Surface gravity: 1.62 m/s²</div><div class="fact">Average Earth distance: ~384,400 km</div><div class="fact">Sidereal orbital period: 27.32 days</div><div class="fact">Synodic phase cycle: 29.53 days</div><div class="fact">Escape velocity: 2.38 km/s</div><div class="fact">No substantial atmosphere</div><div class="small">The Moon rotates synchronously with its orbit around Earth, so approximately the same hemisphere normally faces Earth. Libration lets us see somewhat more than half of the lunar surface over time.</div>
-<hr><div class="small">BQAstro Lunar Globe<br><span class="version">Version 4.0.6</span><br>© 2026 BQAstro</div></div>
+<hr><div class="small">BQAstro Lunar Globe<br><span class="version">Version 4.0.7</span><br>© 2026 BQAstro</div></div>
 <div class="panel" id="filters"><h3>LABELS</h3><div class="filterGrid">
 <button class="chip active" data-cat="All">All</button><button class="chip" data-cat="Maria / Basin">Maria</button><button class="chip" data-cat="Crater">Craters</button>
 <button class="chip" data-cat="Mountain Range">Mountains</button><button class="chip" data-cat="Rilles / Valleys">Rilles / Valleys</button><button class="chip" data-cat="Apollo Landing Site">Apollo</button>
@@ -120,13 +127,29 @@ void main(){vec2 q=(2.*gl_FragCoord.xy-res)/min(res.x,res.y);q/=scale;float r=do
 function shader(t,s){let x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(x);return x}
 let prog=gl.createProgram();gl.attachShader(prog,shader(gl.VERTEX_SHADER,vs));gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);gl.useProgram(prog);
 let buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);let ap=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(ap);gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
-let tex=gl.createTexture(),img=new Image();img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);document.getElementById('loading').remove();draw()};img.onerror=()=>{document.getElementById('loading').textContent='Could not load moon_fullres.jpg — check the GitHub upload and filename.';};img.src='moon_fullres.jpg?v=4.0.6';
+let tex=gl.createTexture(),img=new Image();img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);document.getElementById('loading').remove();draw()};img.onerror=()=>{document.getElementById('loading').textContent='Could not load moon_fullres.jpg — check the GitHub upload and filename.';};img.src='moon_fullres.jpg?v=4.0.7';
 function defaultZoom(){return innerHeight>innerWidth ? 0.72 : 0.82}
 let Y=0,P=0,Z=defaultZoom(),labelsOn=false,currentCat='All',density=1,gridOn=false;
 const gridCanvas=document.getElementById('gridCanvas'),gctx=gridCanvas.getContext('2d');
-const cardinals=document.getElementById('cardinals');
+const cardinals=document.getElementById('cardinals'),gridLabels=document.getElementById('gridLabels');
 const cardinalDefs=[{name:'N',lat:90,lon:0},{name:'S',lat:-90,lon:0},{name:'E',lat:0,lon:90},{name:'W',lat:0,lon:-90}];
 cardinalDefs.forEach(o=>{let e=document.createElement('div');e.className='cardinal';e.textContent=o.name;o.el=e;cardinals.appendChild(e)});
+const coordLabels=[];
+function addGridLabel(text,lat,lon,major=false){
+  const e=document.createElement('div');e.className='gridCoord'+(major?' major':'');e.textContent=text;gridLabels.appendChild(e);
+  coordLabels.push({text,lat,lon,el:e});
+}
+// Longitude labels sit close to the equator; prime meridian gets an explicit name.
+for(let lon=-75;lon<=75;lon+=15){
+  const txt=lon===0?'Prime Meridian · 0°':Math.abs(lon)+'°'+(lon<0?'W':'E');
+  addGridLabel(txt,3,lon,lon===0);
+}
+// Latitude labels sit near the central meridian; equator gets an explicit name.
+for(let lat=-75;lat<=75;lat+=15){
+  const txt=lat===0?'Equator · 0°':Math.abs(lat)+'°'+(lat<0?'S':'N');
+  // Avoid placing a second 0° label directly on top of Prime Meridian.
+  addGridLabel(txt,lat,lat===0?18:3,lat===0);
+}
 const layer=document.getElementById('labels');
 FEATURES.forEach(f=>{
       let e=document.createElement('div');
@@ -163,8 +186,8 @@ function drawGrid(){
   if(gridCanvas.width!==rw||gridCanvas.height!==rh){gridCanvas.width=rw;gridCanvas.height=rh}
   gctx.setTransform(d,0,0,d,0,0);
   gctx.clearRect(0,0,innerWidth,innerHeight);
-  if(!gridOn){cardinals.classList.remove('show');return}
-  cardinals.classList.add('show');
+  if(!gridOn){cardinals.classList.remove('show');gridLabels.classList.remove('show');return}
+  cardinals.classList.add('show');gridLabels.classList.add('show');
   gctx.lineWidth=0.7;
   gctx.strokeStyle='rgba(220,228,238,.28)';
 
@@ -200,6 +223,12 @@ function drawGrid(){
     const p=lunarToScreen(o.lat,o.lon);
     o.el.style.display=p.z>0?'block':'none';
     if(p.z>0){o.el.style.left=p.x+'px';o.el.style.top=p.y+'px'}
+  });
+  coordLabels.forEach(o=>{
+    const p=lunarToScreen(o.lat,o.lon);
+    const visible=p.z>0;
+    o.el.style.display=visible?'block':'none';
+    if(visible){o.el.style.left=p.x+'px';o.el.style.top=p.y+'px'}
   });
 }
 
