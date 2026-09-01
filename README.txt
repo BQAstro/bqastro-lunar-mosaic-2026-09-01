@@ -1,22 +1,9 @@
-BQAstro Lunar Globe — Version 4.0
+BQAstro Lunar Globe — Version 4.0.1
 
-GitHub Pages files:
-- index.html
-- moon_fullres.jpg
-- manifest.webmanifest
-- sw.js
-- icon-192.png
-- icon-512.png
+HOTFIX
+- Fixed v4.0 startup JavaScript/WebGL shader bug that left the viewer on the loading screen.
+- Added an explicit moon texture load error message.
+- Retains all v4.0 features, 55 labels, filters, feature cards, Moon facts, translucent UI and mobile pinch fix.
+- Service worker cache bumped to v4.0.1.
 
-v4.0:
-- 49 curated lunar features from the BQAstro feature list
-- all six crewed Apollo landing sites
-- category filtering and major/all label density
-- tappable feature cards
-- Moon facts and observation information
-- translucent low-clutter interface
-- repeated mobile pinch-to-zoom fix retained
-- labels hidden when rotated behind the globe
-- service worker cache bumped to v4.0
-
-Upload the six web files above to the repository root. README.txt is optional.
+Replace the existing GitHub repository files with these files.
