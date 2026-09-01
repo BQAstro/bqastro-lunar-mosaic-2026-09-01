@@ -1,10 +1,8 @@
-BQAstro Lunar Globe — Version 4.0.17
+BQAstro Lunar Globe — Version 4.0.18
 
-SANITY-CHECKED LINK / AGE-HELP UPDATE
-- Per-feature “LROC closer look” now opens LROC QuickMap rather than the legacy LROC WMS browser.
-- Removed per-feature Daily Moon Guide link.
-- Added per-feature Wikipedia search link.
-- Global Helpful Links section still retains NASA Daily Moon Guide because it is useful as a general observing resource.
-- “Imbrian mare volcanism” explanation removed from the generic Age ? help and added only to relevant volcanic/mare features.
-- Age ? popup is positioned higher on desktop while remaining viewport-safe on mobile.
-- Age ? popup automatically closes when changing features and when closing the feature detail panel.
+WIKIPEDIA / LROC LINK FIX
+- Replaced Wikipedia Special:Search links with explicit direct article URLs.
+- Example: Eratosthenes now links directly to Eratosthenes (crater), not a Wikipedia search page.
+- Wikipedia button is hidden for a feature when a dedicated/direct article is not confidently mapped, instead of sending users to a generic search result.
+- Added “Click here for more details:” above the feature resource links.
+- LROC QuickMap remains the primary closer-look link for every feature.
