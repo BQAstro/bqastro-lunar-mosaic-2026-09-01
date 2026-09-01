@@ -2,7 +2,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#000"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
-<title>BQAstro Lunar Globe — v4.0.22</title>
+<title>BQAstro Lunar Globe — v4.0.23</title>
 <style>
 :root{--gold:#f5c84c;--line:rgba(255,255,255,.16);--glass:rgba(8,10,13,.48);--glass2:rgba(8,10,13,.72);--muted:#aeb5bf}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -146,12 +146,25 @@ h3{font-size:12px;font-weight:600;letter-spacing:.04em;margin:0 0 11px;color:#e4
 #info{max-height:min(78vh,720px);overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
 @media(max-width:560px){#info{max-height:72vh}.equipmentGrid{grid-template-columns:1fr}}
 
+
+.phaseHelpBtn{
+  position:relative!important;
+  z-index:120!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  cursor:pointer!important;
+}
+#phaseHelp{
+  z-index:130!important;
+  pointer-events:auto!important;
+}
+
 </style><script>
 window.addEventListener('error',function(e){
   var box=document.getElementById('loading');
   if(box){box.innerHTML='<div style="max-width:680px;padding:24px;text-align:center"><b style="color:#f5c84c">BQAstro viewer error</b><br><br><span style="color:#ddd">'+
   String(e.message||'Unknown JavaScript error').replace(/</g,'&lt;')+
-  '</span><br><br><small style="color:#888">Version 4.0.22</small></div>';}
+  '</span><br><br><small style="color:#888">Version 4.0.23</small></div>';}
 });
 window.addEventListener('unhandledrejection',function(e){
   var box=document.getElementById('loading');
@@ -159,7 +172,7 @@ window.addEventListener('unhandledrejection',function(e){
 });
 </script></head><body>
 <div id="loading">Loading full-resolution BQAstro lunar mosaic…</div><canvas id="c"></canvas><canvas id="gridCanvas"></canvas><canvas id="measureCanvas"></canvas><div id="crosshair"></div><div id="gridLabels"></div><div id="cardinals"></div><div id="labels"></div>
-<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon <button id="phaseHelpBtn" class="phaseHelpBtn" type="button" title="Moon phase guide" aria-label="Open Moon phase guide">?</button></span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.22</div></div>
+<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon <button id="phaseHelpBtn" class="phaseHelpBtn" type="button" title="Moon phase guide" aria-label="Open Moon phase guide">?</button></span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.23</div></div>
 <div class="actions"><button class="btn" id="infoBtn">ⓘ <span class="word">Info</span></button><button class="btn" id="factsBtn">💡 <span class="word">Fun Facts</span></button><button class="btn" id="labelBtn">🏷 <span class="word">Features</span></button><button class="btn" id="gridBtn">⌖ <span class="word">Grid</span></button><button class="btn" id="measureBtn">↔ <span class="word">Measure</span></button><button class="btn" id="crosshairBtn">＋ <span class="word">Crosshair</span></button></div></div>
 <div id="phaseHelp" class="phaseHelpPanel"><button class="close" id="phaseHelpClose">×</button><h3>MOON PHASES</h3><div class="phaseIntro">The Moon is always half illuminated by the Sun. Its phase is the portion of that sunlit half visible from Earth. A complete phase cycle takes about 29.5 days.</div><div class="phaseGrid"><div><b>🌑 New Moon</b><span>Near 0% visible illumination</span></div><div><b>🌒 Waxing Crescent</b><span>Illuminated portion is growing</span></div><div><b>🌓 First Quarter</b><span>About half illuminated</span></div><div><b>🌔 Waxing Gibbous</b><span>More than half and growing</span></div><div><b>🌕 Full Moon</b><span>Nearly the whole visible disk illuminated</span></div><div class="current"><b>🌖 Waning Gibbous</b><span>This image · more than half and shrinking</span></div><div><b>🌗 Last Quarter</b><span>About half and shrinking</span></div><div><b>🌘 Waning Crescent</b><span>Thin crescent before New Moon</span></div></div><div class="small">Waxing = illumination is growing · Waning = shrinking · Gibbous = more than half illuminated.</div></div><div class="panel" id="info"><h3>OBSERVATION INFO</h3>
 <div class="infoAccordion">
@@ -201,7 +214,7 @@ window.addEventListener('unhandledrejection',function(e){
 </div>
   </div>
 </div>
-<hr><div class="small">BQAstro Lunar Globe<br><span class="version">Version 4.0.22</span><br>© 2026 BQAstro</div></div>
+<hr><div class="small">BQAstro Lunar Globe<br><span class="version">Version 4.0.23</span><br>© 2026 BQAstro</div></div>
 <div class="panel" id="filters"><h3>LUNAR FEATURES</h3><div class="filterGrid">
 <button class="chip active" data-cat="All">All</button><button class="chip" data-cat="Maria / Basin">Maria</button><button class="chip" data-cat="Crater">Craters</button>
 <button class="chip" data-cat="Mountain Range">Mountains</button><button class="chip" data-cat="Rilles / Valleys">Rilles / Valleys</button><button class="chip" data-cat="Apollo Program">Apollo Program</button>
@@ -231,7 +244,7 @@ void main(){vec2 q=(2.*gl_FragCoord.xy-res)/min(res.x,res.y);q/=scale;float r=do
 function shader(t,s){let x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(x);return x}
 let prog=gl.createProgram();gl.attachShader(prog,shader(gl.VERTEX_SHADER,vs));gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);gl.useProgram(prog);
 let buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);let ap=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(ap);gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
-let tex=gl.createTexture(),img=new Image();img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);document.getElementById('loading').remove();draw()};img.onerror=()=>{document.getElementById('loading').textContent='Could not load moon_fullres.jpg — check the GitHub upload and filename.';};img.src='moon_fullres.jpg?v=4.0.22';
+let tex=gl.createTexture(),img=new Image();img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);document.getElementById('loading').remove();draw()};img.onerror=()=>{document.getElementById('loading').textContent='Could not load moon_fullres.jpg — check the GitHub upload and filename.';};img.src='moon_fullres.jpg?v=4.0.23';
 function defaultZoom(){return innerHeight>innerWidth ? 0.72 : 0.82}
 let Y=0,P=0,Z=defaultZoom(),labelsOn=false,currentCat='All',density=1,gridOn=false,measureOn=false,measurePts=[];
 const gridCanvas=document.getElementById('gridCanvas'),gctx=gridCanvas.getContext('2d'),measureCanvas=document.getElementById('measureCanvas'),mctx=measureCanvas.getContext('2d'),measureHud=document.getElementById('measureHud');
@@ -539,7 +552,7 @@ document.getElementById('factToastClose').onclick=()=>{factToast.classList.remov
 factToast.onclick=e=>{if(e.target.id==='factToastClose')return;factsPanel.classList.add('show');renderFacts();factToast.classList.remove('show')};
 scheduleFactToast(true);
 
-const phaseHelp=document.getElementById('phaseHelp');document.getElementById('phaseHelpBtn').onclick=(e)=>{e.stopPropagation();phaseHelp.classList.toggle('show')};document.getElementById('phaseHelpClose').onclick=()=>phaseHelp.classList.remove('show');function openInitialInfo(){const el=document.getElementById('info');if(!el)return;el.classList.add('open');el.classList.add('show');}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',openInitialInfo,{once:true});}else{openInitialInfo();}
+function openInitialInfo(){const el=document.getElementById('info');if(!el)return;el.classList.add('open');el.classList.add('show');}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',openInitialInfo,{once:true});}else{openInitialInfo();}
 document.querySelectorAll('.infoSectionBtn').forEach(btn=>{
   btn.addEventListener('click',()=>{
     btn.classList.toggle('open');
@@ -547,5 +560,37 @@ document.querySelectorAll('.infoSectionBtn').forEach(btn=>{
     if(section) section.classList.toggle('open');
   });
 });
+
+
+function initPhaseHelp(){
+  const btn=document.getElementById('phaseHelpBtn');
+  const panel=document.getElementById('phaseHelp');
+  const closeBtn=document.getElementById('phaseHelpClose');
+  if(!btn||!panel) return;
+
+  const stop=(e)=>{e.stopPropagation();};
+  ['pointerdown','mousedown','touchstart'].forEach(type=>{
+    btn.addEventListener(type,stop,{passive:false});
+  });
+
+  btn.addEventListener('click',(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    panel.classList.toggle('show');
+  });
+
+  if(closeBtn){
+    closeBtn.addEventListener('click',(e)=>{
+      e.preventDefault();
+      e.stopPropagation();
+      panel.classList.remove('show');
+    });
+  }
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',initPhaseHelp,{once:true});
+}else{
+  initPhaseHelp();
+}
 
 </script></body></html>

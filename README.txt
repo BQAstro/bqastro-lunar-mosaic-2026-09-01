@@ -1,13 +1,8 @@
-BQAstro Lunar Globe — v4.0.22
+BQAstro Lunar Globe — v4.0.23
 
-INFO PANEL COMPACT LAYOUT
-- Added capture equipment:
-  • Sky-Watcher Skymax 127
-  • ZWO ASI662MC
-  • Sky-Watcher AZ-GTi
-  • Baader CMOS UV/IR-Cut filter
-- Reorganized the Info panel into collapsible sections so no information had to be removed.
-- “How this image was captured” is open by default.
-- “Equipment used” and “Helpful links” are collapsed by default.
-- Added a maximum Info-panel height with internal scrolling for smaller screens.
-- Retains automatic Info opening on initial website load.
+MOON PHASE HELP BUTTON FIX
+- Fixed the ? button beside “Waning Gibbous Moon” not responding to clicks/taps.
+- Explicitly enabled pointer events and raised the button above overlapping UI layers.
+- Added click, pointer, mouse and touch handling so the globe drag interaction cannot steal the input.
+- Phase guide panel remains the same eight-phase guide.
+- Existing Info auto-open and compact Info sections retained.
