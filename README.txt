@@ -1,8 +1,10 @@
-BQAstro Lunar Globe — Version 4.0.10
+BQAstro Lunar Globe — Version 4.0.11
 
-LIVE SCALE READOUT
-- Added live scale information to the View HUD.
-- Scale is shown as the approximate number of kilometres across the current view.
-- Scale updates continuously as the user zooms in and out.
-- Zoom multiplier and camera-center lunar coordinates remain displayed.
-- Retains all v4.0.9 features and automatic update/cache architecture.
+MEASURING TOOL
+- Toggle Measure mode from the top controls.
+- Tap/click two points on the Moon to measure lunar surface distance.
+- Great-circle calculation uses the Moon mean radius of 1,737.4 km.
+- Shows both endpoint coordinates and distance in kilometres.
+- Measurement points and line remain anchored while rotating and zooming.
+- A third tap starts a new measurement.
+- Works on desktop and phone/portrait mode.
