@@ -1,12 +1,22 @@
-BQAstro — Lunar Mosaic | 01 Sep 2026
+BQAstro Lunar Globe — Version 4.0
 
-Revision v3
-- Added toggleable lunar labels.
-- Fixed mobile repeated pinch-to-zoom resetting the view.
-- Double-tap reset now only triggers from genuine single-finger double taps.
+GitHub Pages files:
+- index.html
+- moon_fullres.jpg
+- manifest.webmanifest
+- sw.js
+- icon-192.png
+- icon-512.png
 
-Capture:
-01:50–02:15 SGT, 1 September 2026
-83-panel mosaic
-100 stacked frames per panel
-8,300 total source frames
+v4.0:
+- 49 curated lunar features from the BQAstro feature list
+- all six crewed Apollo landing sites
+- category filtering and major/all label density
+- tappable feature cards
+- Moon facts and observation information
+- translucent low-clutter interface
+- repeated mobile pinch-to-zoom fix retained
+- labels hidden when rotated behind the globe
+- service worker cache bumped to v4.0
+
+Upload the six web files above to the repository root. README.txt is optional.
