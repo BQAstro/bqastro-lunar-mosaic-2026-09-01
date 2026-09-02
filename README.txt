@@ -1,4 +1,4 @@
-BQAstro Lunar Globe — v4.0.33
+BQAstro Lunar Globe — v4.0.34
 
 MOBILE LUNAR FEATURES PANEL
 - Reduced the Lunar Features panel width on phones to a compact right-side drawer.
@@ -36,3 +36,10 @@ v4.0.33
 - LRO fills the remainder when enabled and can be viewed alone for direct comparison.
 - Boundary marks the geographic edge of the BQAstro texture coverage.
 - LRO source: USGS/ASU LROC WAC Global Morphology Mosaic 100m, June 2013.
+
+
+v4.0.34
+- Added a persistent live Viewing Layer title card.
+- Title card automatically shows Both, BQAstro Photo, LRO Reference, or No imagery as layer switches change.
+- Extended the latitude/longitude grid across the complete 360° lunar globe, so the same grid appears on the farside when the Moon is rotated.
+- Preserved all v4.0.33 LRO/BQAstro layer controls and existing viewer features.
