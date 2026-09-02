@@ -2,7 +2,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#000"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
-<title>BQAstro Lunar Globe — v4.0.27</title>
+<title>BQAstro Lunar Globe — v4.0.28</title>
 <style>
 :root{--gold:#f5c84c;--line:rgba(255,255,255,.16);--glass:rgba(8,10,13,.48);--glass2:rgba(8,10,13,.72);--muted:#aeb5bf}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -258,6 +258,44 @@ h3{font-size:12px;font-weight:600;letter-spacing:.04em;margin:0 0 11px;color:#e4
 }
 
 html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit-text-size-adjust:100%;}
+
+#filters{position:relative}
+.featuresMinBtn{
+  position:absolute;top:6px;right:7px;z-index:8;
+  width:30px;height:30px;min-width:30px;
+  display:flex;align-items:center;justify-content:center;
+  padding:0;border-radius:8px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.07);color:#fff;
+  font:700 18px/1 Arial,sans-serif;
+  cursor:pointer;touch-action:manipulation!important;
+}
+.featuresMinBtn:active{transform:scale(.96)}
+#filters>h3,#filters .featuresPanelBody>h3{padding-right:34px}
+.featuresPanelBody{display:block}
+#filters.minimized{
+  width:auto!important;min-width:0!important;max-width:none!important;
+  height:auto!important;min-height:0!important;max-height:none!important;
+  overflow:visible!important;padding:8px 43px 8px 11px!important;
+}
+#filters.minimized .featuresPanelBody{display:none!important}
+#filters.minimized::before{
+  content:"Lunar Features";
+  display:block;
+  white-space:nowrap;
+  font-size:10px;font-weight:700;letter-spacing:.02em;
+}
+#filters.minimized .featuresMinBtn{top:4px;right:5px}
+@media(max-width:700px){
+  #filters.minimized{
+    left:auto!important;
+    right:max(8px,env(safe-area-inset-right,0px))!important;
+    width:auto!important;
+    max-width:calc(100vw - 16px)!important;
+  }
+  .featuresMinBtn{width:32px;height:32px;min-width:32px}
+}
+
 </style><script>
 window.addEventListener('error',function(e){
   var box=document.getElementById('loading');
@@ -271,7 +309,7 @@ window.addEventListener('unhandledrejection',function(e){
 });
 </script></head><body>
 <div id="loading">Loading full-resolution BQAstro lunar mosaic…</div><canvas id="c"></canvas><canvas id="gridCanvas"></canvas><canvas id="measureCanvas"></canvas><div id="crosshair"></div><div id="gridLabels"></div><div id="cardinals"></div><div id="labels"></div>
-<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon <button id="phaseHelpBtn" class="phaseHelpBtn" type="button" title="Moon phase guide" aria-label="Open Moon phase guide">?</button></span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.27</div></div>
+<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon <button id="phaseHelpBtn" class="phaseHelpBtn" type="button" title="Moon phase guide" aria-label="Open Moon phase guide">?</button></span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.28</div></div>
 <div class="actions"><button class="btn" id="infoBtn">ⓘ <span class="word">Info</span></button><button class="btn" id="factsBtn">💡 <span class="word">Fun Facts</span></button><button class="btn" id="labelBtn">🏷 <span class="word">Features</span></button><button class="btn" id="gridBtn">⌖ <span class="word">Grid</span></button><button class="btn" id="measureBtn">↔ <span class="word">Measure</span></button><button class="btn" id="crosshairBtn">＋ <span class="word">Crosshair</span></button></div></div>
 <div id="phaseHelp" class="phaseHelpPanel"><button class="close" id="phaseHelpClose">×</button><h3>MOON PHASES</h3><div class="phaseIntro">The Moon is always half illuminated by the Sun. Its phase is the portion of that sunlit half visible from Earth. A complete phase cycle takes about 29.5 days.</div><div class="phaseGrid"><div><b>🌑 New Moon</b><span>Near 0% visible illumination</span></div><div><b>🌒 Waxing Crescent</b><span>Illuminated portion is growing</span></div><div><b>🌓 First Quarter</b><span>About half illuminated</span></div><div><b>🌔 Waxing Gibbous</b><span>More than half and growing</span></div><div><b>🌕 Full Moon</b><span>Nearly the whole visible disk illuminated</span></div><div class="current"><b>🌖 Waning Gibbous</b><span>This image · more than half and shrinking</span></div><div><b>🌗 Last Quarter</b><span>About half and shrinking</span></div><div><b>🌘 Waning Crescent</b><span>Thin crescent before New Moon</span></div></div><div class="small">Waxing = illumination is growing · Waning = shrinking · Gibbous = more than half illuminated.</div></div><div class="panel" id="info">
 <button class="close infoClose" id="closeInfo" type="button" aria-label="Close observation info">×</button>
@@ -317,11 +355,13 @@ window.addEventListener('unhandledrejection',function(e){
   </div>
 </div>
 <hr><div class="small">BQAstro Lunar Globe<br><span class="version">Version 4.0.26</span><br>© 2026 BQAstro</div></div>
-<div class="panel" id="filters"><h3>LUNAR FEATURES</h3><div class="filterGrid">
+<div class="panel" id="filters">
+<button id="minimizeFeatures" class="featuresMinBtn" type="button"
+        aria-label="Minimize Lunar Features panel" title="Minimize panel">−</button><div id="featuresPanelBody" class="featuresPanelBody"><h3>LUNAR FEATURES</h3><div class="filterGrid">
 <button class="chip active" data-cat="All">All</button><button class="chip" data-cat="Maria / Basin">Maria</button><button class="chip" data-cat="Crater">Craters</button>
 <button class="chip" data-cat="Mountain Range">Mountains</button><button class="chip" data-cat="Rilles / Valleys">Rilles / Valleys</button><button class="chip" data-cat="Apollo Program">Apollo Program</button>
 <button class="chip" data-cat="Scarps / Other">Other</button><button class="chip" data-cat="Historic Region">Historic</button><button class="chip" data-cat="Future Exploration">Future Exploration</button></div>
-<div class="zoomrow"><span>Shown features</span><input id="density" title="Major shows the key landmarks only. All also shows smaller and secondary features." type="range" min="1" max="2" step="1" value="1"><b id="densityText">MAJOR</b></div></div>
+<div class="zoomrow"><span>Shown features</span><input id="density" title="Major shows the key landmarks only. All also shows smaller and secondary features." type="range" min="1" max="2" step="1" value="1"><b id="densityText">MAJOR</b></div></div></div>
 <div class="panel" id="detail"><button class="close" id="closeDetail">×</button><div id="dname"></div><div id="dtype"></div><div class="stats"><div><span>Size</span><b id="dsize"></b></div><div id="widthStat"><span>Approx. Width</span><b id="dwidth"></b></div><div><span>Latitude</span><b id="dlat"></b></div><div><span>Longitude</span><b id="dlon"></b></div><div id="ageStat"><span>Age <button id="ageHelpBtn" class="ageHelp" type="button" aria-label="Explain lunar ages">?</button></span><b id="dage"></b><div id="ageHelp" class="ageHelpBox"></div></div><div id="landingStat"><span>Landing</span><b id="dlanding"></b></div></div><div id="dwhy"></div><div id="dmore"></div><div class="featureLinks"><span class="featureLinkLead">Click here for more details:</span><a id="lrocFeatureLink" target="_blank" rel="noopener">LROC QuickMap ↗</a><a id="wikiFeatureLink" target="_blank" rel="noopener">Wikipedia ↗</a></div></div>
 
 <div id="factsPanel" class="panel facts-panel">
@@ -733,5 +773,22 @@ document.addEventListener('touchend',e=>{
   if(now-lastPageTouchEnd<=300)e.preventDefault();
   lastPageTouchEnd=now;
 },{passive:false});
+
+
+const minimizeFeaturesBtn=document.getElementById('minimizeFeatures');
+const featuresPanel=document.getElementById('filters');
+if(minimizeFeaturesBtn && featuresPanel){
+  minimizeFeaturesBtn.addEventListener('click',(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    const minimized=featuresPanel.classList.toggle('minimized');
+    minimizeFeaturesBtn.textContent=minimized ? '+' : '−';
+    minimizeFeaturesBtn.setAttribute(
+      'aria-label',
+      minimized ? 'Expand Lunar Features panel' : 'Minimize Lunar Features panel'
+    );
+    minimizeFeaturesBtn.title=minimized ? 'Expand panel' : 'Minimize panel';
+  });
+}
 
 </script></body></html>

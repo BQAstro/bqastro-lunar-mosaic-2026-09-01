@@ -1,4 +1,4 @@
-BQAstro Lunar Globe — v4.0.27
+BQAstro Lunar Globe — v4.0.28
 
 MOBILE LUNAR FEATURES PANEL
 - Reduced the Lunar Features panel width on phones to a compact right-side drawer.
