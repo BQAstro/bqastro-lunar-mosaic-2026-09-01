@@ -1,4 +1,4 @@
-BQAstro Lunar Globe — v4.0.30
+BQAstro Lunar Globe — v4.0.31
 
 MOBILE LUNAR FEATURES PANEL
 - Reduced the Lunar Features panel width on phones to a compact right-side drawer.
@@ -8,14 +8,14 @@ MOBILE LUNAR FEATURES PANEL
 - Preserved safe-area and visual-viewport handling from v4.0.25.
 
 
-v4.0.30
+v4.0.31
 - Restored Lunar Features panel to the left/top inside the webpage.
 - Added a drag handle so the Features panel can be repositioned with mouse or touch.
 - Dragging is constrained to the visible viewport so the panel cannot be moved off-screen.
 - Minimize behavior still affects only the panel UI; Moon feature labels remain visible.
 
 
-v4.0.30
+v4.0.31
 - Lunar Features panel now opens by default at the bottom-right.
 - Fixed overlap/clipping between the drag handle and expand button when minimized.
 - Added extra collapsed-panel padding so both controls remain fully separated and touchable.
