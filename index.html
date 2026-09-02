@@ -2,7 +2,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#000"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
-<title>BQAstro Lunar Globe — v4.0.32</title>
+<title>BQAstro Lunar Globe — v4.0.33</title>
 <style>
 :root{--gold:#f5c84c;--line:rgba(255,255,255,.16);--glass:rgba(8,10,13,.48);--glass2:rgba(8,10,13,.72);--muted:#aeb5bf}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -297,7 +297,7 @@ html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit
 }
 
 
-/* v4.0.32: keep Lunar Features inside the viewport and allow dragging */
+/* v4.0.33: keep Lunar Features inside the viewport and allow dragging */
 #filters{
   position:fixed!important;
   left:12px!important;
@@ -357,7 +357,7 @@ html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit
 }
 
 
-/* v4.0.32: Features panel defaults bottom-right; minimized controls no longer overlap */
+/* v4.0.33: Features panel defaults bottom-right; minimized controls no longer overlap */
 #filters{
   left:auto!important;
   right:12px!important;
@@ -401,7 +401,7 @@ html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit
 }
 
 
-/* v4.0.32: identical Features-panel move/minimize button sizing */
+/* v4.0.33: identical Features-panel move/minimize button sizing */
 #filters .featuresDragHandle,
 #filters .featuresMinBtn{
   box-sizing:border-box!important;
@@ -423,7 +423,7 @@ html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit
 }
 
 
-/* v4.0.32: fix minimized Lunar Features control clipping */
+/* v4.0.33: fix minimized Lunar Features control clipping */
 #filters.minimized{
   min-height:30px!important;
   padding:6px 64px 6px 10px!important;
@@ -467,12 +467,22 @@ html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit
   }
 }
 
+
+/* v4.0.33 image layers */
+#layersPanel{right:16px;top:58px;width:236px;display:none;z-index:96}
+#layersPanel.show{display:block}
+.layerRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.layerRow:last-child{border-bottom:0}.layerRow span{font-size:11px}.layerSwitch{width:42px;height:23px;border-radius:14px;border:1px solid #555;background:#161616;position:relative;cursor:pointer;flex:0 0 auto}
+.layerSwitch:after{content:'';position:absolute;width:17px;height:17px;left:2px;top:2px;border-radius:50%;background:#777;transition:.15s}
+.layerSwitch.on{border-color:#d7b24a;background:#6b5720}.layerSwitch.on:after{left:21px;background:#ffd65b}
+.layerNote{font-size:9px;color:#999;line-height:1.35;margin-top:8px}
+@media(max-width:700px){#layersPanel{left:10px;right:10px;top:68px;width:auto}}
 </style><script>
 window.addEventListener('error',function(e){
   var box=document.getElementById('loading');
   if(box){box.innerHTML='<div style="max-width:680px;padding:24px;text-align:center"><b style="color:#f5c84c">BQAstro viewer error</b><br><br><span style="color:#ddd">'+
   String(e.message||'Unknown JavaScript error').replace(/</g,'&lt;')+
-  '</span><br><br><small style="color:#888">Version 4.0.26</small></div>';}
+  '</span><br><br><small style="color:#888">Version 4.0.33</small></div>';}
 });
 window.addEventListener('unhandledrejection',function(e){
   var box=document.getElementById('loading');
@@ -480,8 +490,13 @@ window.addEventListener('unhandledrejection',function(e){
 });
 </script></head><body>
 <div id="loading">Loading full-resolution BQAstro lunar mosaic…</div><canvas id="c"></canvas><canvas id="gridCanvas"></canvas><canvas id="measureCanvas"></canvas><div id="crosshair"></div><div id="gridLabels"></div><div id="cardinals"></div><div id="labels"></div>
-<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon <button id="phaseHelpBtn" class="phaseHelpBtn" type="button" title="Moon phase guide" aria-label="Open Moon phase guide">?</button></span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.32</div></div>
-<div class="actions"><button class="btn" id="infoBtn">ⓘ <span class="word">Info</span></button><button class="btn" id="factsBtn">💡 <span class="word">Fun Facts</span></button><button class="btn" id="labelBtn">🏷 <span class="word">Features</span></button><button class="btn" id="gridBtn">⌖ <span class="word">Grid</span></button><button class="btn" id="measureBtn">↔ <span class="word">Measure</span></button><button class="btn" id="crosshairBtn">＋ <span class="word">Crosshair</span></button></div></div>
+<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon <button id="phaseHelpBtn" class="phaseHelpBtn" type="button" title="Moon phase guide" aria-label="Open Moon phase guide">?</button></span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.33</div></div>
+<div class="actions"><button class="btn" id="layersBtn">◫ <span class="word">Layers</span></button><button class="btn" id="infoBtn">ⓘ <span class="word">Info</span></button><button class="btn" id="factsBtn">💡 <span class="word">Fun Facts</span></button><button class="btn" id="labelBtn">🏷 <span class="word">Features</span></button><button class="btn" id="gridBtn">⌖ <span class="word">Grid</span></button><button class="btn" id="measureBtn">↔ <span class="word">Measure</span></button><button class="btn" id="crosshairBtn">＋ <span class="word">Crosshair</span></button></div></div>
+<div class="panel" id="layersPanel"><h3>IMAGE LAYERS</h3>
+<div class="layerRow"><span><b>BQAstro Photo</b><br><small>Your 01 Sep 2026 mosaic</small></span><button class="layerSwitch on" id="bqLayer" type="button" aria-label="Toggle BQAstro Photo"></button></div>
+<div class="layerRow"><span><b>LRO Reference</b><br><small>Global LROC WAC mosaic</small></span><button class="layerSwitch on" id="lroLayer" type="button" aria-label="Toggle LRO Reference"></button></div>
+<div class="layerRow"><span><b>Photo Boundary</b><br><small>Edge of BQAstro coverage</small></span><button class="layerSwitch on" id="boundaryLayer" type="button" aria-label="Toggle photo boundary"></button></div>
+<div class="layerNote">BQAstro takes priority where your photograph has coverage. Turn BQAstro off to compare the same lunar coordinates directly with LRO.</div></div>
 <div id="phaseHelp" class="phaseHelpPanel"><button class="close" id="phaseHelpClose">×</button><h3>MOON PHASES</h3><div class="phaseIntro">The Moon is always half illuminated by the Sun. Its phase is the portion of that sunlit half visible from Earth. A complete phase cycle takes about 29.5 days.</div><div class="phaseGrid"><div><b>🌑 New Moon</b><span>Near 0% visible illumination</span></div><div><b>🌒 Waxing Crescent</b><span>Illuminated portion is growing</span></div><div><b>🌓 First Quarter</b><span>About half illuminated</span></div><div><b>🌔 Waxing Gibbous</b><span>More than half and growing</span></div><div><b>🌕 Full Moon</b><span>Nearly the whole visible disk illuminated</span></div><div class="current"><b>🌖 Waning Gibbous</b><span>This image · more than half and shrinking</span></div><div><b>🌗 Last Quarter</b><span>About half and shrinking</span></div><div><b>🌘 Waning Crescent</b><span>Thin crescent before New Moon</span></div></div><div class="small">Waxing = illumination is growing · Waning = shrinking · Gibbous = more than half illuminated.</div></div><div class="panel" id="info">
 <button class="close infoClose" id="closeInfo" type="button" aria-label="Close observation info">×</button>
 <h3>OBSERVATION INFO</h3>
@@ -525,7 +540,7 @@ window.addEventListener('unhandledrejection',function(e){
 </div>
   </div>
 </div>
-<hr><div class="small">BQAstro Lunar Globe<br><span class="version">Version 4.0.26</span><br>© 2026 BQAstro</div></div>
+<hr><div class="small">BQAstro Lunar Globe<br><span class="version">Version 4.0.33</span><br>© 2026 BQAstro</div></div>
 <div class="panel" id="filters">
 <button id="minimizeFeatures" class="featuresMinBtn" type="button"
         aria-label="Minimize Lunar Features panel" title="Minimize panel">−</button>
@@ -552,15 +567,23 @@ const W=-91.108845,E=82.867317,S=-90,N=81.636750;
 const c=document.getElementById('c'),gl=c.getContext('webgl',{antialias:true,alpha:false});
 if(!gl){document.getElementById('loading').textContent='WebGL is required.';throw 0}
 const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
-const fs=`precision highp float;uniform vec2 res;uniform sampler2D tex;uniform float yaw,pitch,scale;const float W=-91.108845,E=82.867317,S=-90.0,N=81.636750;
+const fs=`precision highp float;uniform vec2 res;uniform sampler2D tex;uniform sampler2D lroFW,lroNW,lroNE,lroFE;uniform float yaw,pitch,scale;uniform float showBQ,showLRO,showBoundary;const float W=-91.108845,E=82.867317,S=-90.0,N=81.636750;
 vec3 ry(vec3 v,float a){float q=cos(a),s=sin(a);return vec3(q*v.x+s*v.z,v.y,-s*v.x+q*v.z);}vec3 rx(vec3 v,float a){float q=cos(a),s=sin(a);return vec3(v.x,q*v.y-s*v.z,s*v.y+q*v.z);}
-void main(){vec2 q=(2.*gl_FragCoord.xy-res)/min(res.x,res.y);q/=scale;float r=dot(q,q);if(r>1.){gl_FragColor=vec4(0,0,0,1);return;}vec3 v=normalize(vec3(q,sqrt(max(0.,1.-r))));v=rx(v,pitch);v=ry(v,yaw);float lon=degrees(atan(v.x,v.z)),lat=degrees(asin(clamp(v.y,-1.,1.)));if(lon<W||lon>E||lat<S||lat>N){gl_FragColor=vec4(0,0,0,1);return;}vec2 uv=vec2((lon-W)/(E-W),(N-lat)/(N-S));gl_FragColor=vec4(texture2D(tex,uv).rgb,1.);}`;
+vec3 sampleLRO(float lon,float lat){float v=(90.0-lat)/180.0;float u; if(lon < -90.0){u=(lon+180.0)/90.0;return texture2D(lroFW,vec2(u,v)).rgb;} if(lon < 0.0){u=(lon+90.0)/90.0;return texture2D(lroNW,vec2(u,v)).rgb;} if(lon < 90.0){u=lon/90.0;return texture2D(lroNE,vec2(u,v)).rgb;} u=(lon-90.0)/90.0;return texture2D(lroFE,vec2(u,v)).rgb;}
+void main(){vec2 q=(2.*gl_FragCoord.xy-res)/min(res.x,res.y);q/=scale;float r=dot(q,q);if(r>1.){gl_FragColor=vec4(0,0,0,1);return;}vec3 vv=normalize(vec3(q,sqrt(max(0.,1.-r))));vv=rx(vv,pitch);vv=ry(vv,yaw);float lon=degrees(atan(vv.x,vv.z)),lat=degrees(asin(clamp(vv.y,-1.,1.)));bool inBQ=(lon>=W&&lon<=E&&lat>=S&&lat<=N);vec3 col=vec3(0.0);if(showLRO>0.5)col=sampleLRO(lon,lat);if(showBQ>0.5&&inBQ){vec2 uv=vec2((lon-W)/(E-W),(N-lat)/(N-S));col=texture2D(tex,uv).rgb;}if(showBoundary>0.5&&showBQ>0.5&&showLRO>0.5){float d=min(min(abs(lon-W),abs(lon-E)),min(abs(lat-S),abs(lat-N)));if(d<0.18&&inBQ)col=mix(col,vec3(0.25,0.9,1.0),0.72);}gl_FragColor=vec4(col,1.);}`;
 function shader(t,s){let x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(x);return x}
 let prog=gl.createProgram();gl.attachShader(prog,shader(gl.VERTEX_SHADER,vs));gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);gl.useProgram(prog);
 let buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);let ap=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(ap);gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
-let tex=gl.createTexture(),img=new Image();img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);document.getElementById('loading').remove();draw()};img.onerror=()=>{document.getElementById('loading').textContent='Could not load moon_fullres.jpg — check the GitHub upload and filename.';};img.src='moon_fullres.jpg?v=4.0.26';
+let tex=gl.createTexture();
+function setupTexture(t,img){gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);}
+const lroTextures=[gl.createTexture(),gl.createTexture(),gl.createTexture(),gl.createTexture()];
+const imageDefs=[['moon_fullres.jpg?v=4.0.33',tex],['lro_farside_west.jpg?v=4.0.33',lroTextures[0]],['lro_nearside_west.jpg?v=4.0.33',lroTextures[1]],['lro_nearside_east.jpg?v=4.0.33',lroTextures[2]],['lro_farside_east.jpg?v=4.0.33',lroTextures[3]]];
+let loadedTextures=0;
+imageDefs.forEach(([src,t])=>{const im=new Image();im.onload=()=>{setupTexture(t,im);loadedTextures++;if(loadedTextures===imageDefs.length){document.getElementById('loading')?.remove();draw();}};im.onerror=()=>{document.getElementById('loading').textContent='Could not load '+src.split('?')[0]+' — check the GitHub upload and filename.';};im.src=src;});
+
 function defaultZoom(){return innerHeight>innerWidth ? 0.72 : 0.82}
 let Y=0,P=0,Z=defaultZoom(),labelsOn=false,currentCat='All',density=1,gridOn=false,measureOn=false,measurePts=[];
+let bqOn=true,lroOn=true,boundaryOn=true;
 const gridCanvas=document.getElementById('gridCanvas'),gctx=gridCanvas.getContext('2d'),measureCanvas=document.getElementById('measureCanvas'),mctx=measureCanvas.getContext('2d'),measureHud=document.getElementById('measureHud');
 const cardinals=document.getElementById('cardinals'),gridLabels=document.getElementById('gridLabels');
 const cardinalDefs=[{name:'N',lat:90,lon:0},{name:'S',lat:-90,lon:0},{name:'E',lat:0,lon:90},{name:'W',lat:0,lon:-90}];
@@ -777,7 +800,11 @@ function updateLabels(){
    }
  });
 }
-function draw(){let d=Math.min(devicePixelRatio||1,3),w=Math.floor(innerWidth*d),h=Math.floor(innerHeight*d);if(c.width!==w||c.height!==h){c.width=w;c.height=h}gl.viewport(0,0,w,h);gl.clearColor(0,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform2f(gl.getUniformLocation(prog,'res'),w,h);gl.uniform1f(gl.getUniformLocation(prog,'yaw'),Y);gl.uniform1f(gl.getUniformLocation(prog,'pitch'),P);gl.uniform1f(gl.getUniformLocation(prog,'scale'),Z);gl.drawArrays(gl.TRIANGLES,0,6);drawGrid();drawMeasure();updateLabels();updateCameraHud()}
+function draw(){let d=Math.min(devicePixelRatio||1,3),w=Math.floor(innerWidth*d),h=Math.floor(innerHeight*d);if(c.width!==w||c.height!==h){c.width=w;c.height=h}gl.viewport(0,0,w,h);gl.clearColor(0,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform2f(gl.getUniformLocation(prog,'res'),w,h);gl.uniform1f(gl.getUniformLocation(prog,'yaw'),Y);gl.uniform1f(gl.getUniformLocation(prog,'pitch'),P);gl.uniform1f(gl.getUniformLocation(prog,'scale'),Z);gl.uniform1f(gl.getUniformLocation(prog,'showBQ'),bqOn?1:0);gl.uniform1f(gl.getUniformLocation(prog,'showLRO'),lroOn?1:0);gl.uniform1f(gl.getUniformLocation(prog,'showBoundary'),boundaryOn?1:0);const binds=[[tex,'tex'],[lroTextures[0],'lroFW'],[lroTextures[1],'lroNW'],[lroTextures[2],'lroNE'],[lroTextures[3],'lroFE']];binds.forEach((x,i)=>{gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_2D,x[0]);gl.uniform1i(gl.getUniformLocation(prog,x[1]),i)});gl.drawArrays(gl.TRIANGLES,0,6);drawGrid();drawMeasure();updateLabels();updateCameraHud()}
+const layersPanel=document.getElementById('layersPanel');
+document.getElementById('layersBtn').onclick=function(){layersPanel.classList.toggle('show');this.classList.toggle('on',layersPanel.classList.contains('show'));};
+function bindLayerToggle(id,get,set){const b=document.getElementById(id);b.onclick=()=>{set(!get());b.classList.toggle('on',get());draw();};}
+bindLayerToggle('bqLayer',()=>bqOn,v=>bqOn=v);bindLayerToggle('lroLayer',()=>lroOn,v=>lroOn=v);bindLayerToggle('boundaryLayer',()=>boundaryOn,v=>boundaryOn=v);
 document.getElementById('infoBtn').onclick=()=>document.getElementById('info').classList.toggle('show');
 document.getElementById('labelBtn').onclick=function(){labelsOn=!labelsOn;this.classList.toggle('on',labelsOn);document.getElementById('filters').classList.toggle('show',labelsOn);updateLabels()};
 document.getElementById('gridBtn').onclick=function(){gridOn=!gridOn;this.classList.toggle('on',gridOn);drawGrid()};
