@@ -1,8 +1,8 @@
 <!doctype html><html><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#000"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
-<title>BQAstro Lunar Globe — v4.0.26</title>
+<title>BQAstro Lunar Globe — v4.0.27</title>
 <style>
 :root{--gold:#f5c84c;--line:rgba(255,255,255,.16);--glass:rgba(8,10,13,.48);--glass2:rgba(8,10,13,.72);--muted:#aeb5bf}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -257,6 +257,7 @@ h3{font-size:12px;font-weight:600;letter-spacing:.04em;margin:0 0 11px;color:#e4
   }
 }
 
+html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit-text-size-adjust:100%;}
 </style><script>
 window.addEventListener('error',function(e){
   var box=document.getElementById('loading');
@@ -270,7 +271,7 @@ window.addEventListener('unhandledrejection',function(e){
 });
 </script></head><body>
 <div id="loading">Loading full-resolution BQAstro lunar mosaic…</div><canvas id="c"></canvas><canvas id="gridCanvas"></canvas><canvas id="measureCanvas"></canvas><div id="crosshair"></div><div id="gridLabels"></div><div id="cardinals"></div><div id="labels"></div>
-<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon <button id="phaseHelpBtn" class="phaseHelpBtn" type="button" title="Moon phase guide" aria-label="Open Moon phase guide">?</button></span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.26</div></div>
+<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon <button id="phaseHelpBtn" class="phaseHelpBtn" type="button" title="Moon phase guide" aria-label="Open Moon phase guide">?</button></span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.27</div></div>
 <div class="actions"><button class="btn" id="infoBtn">ⓘ <span class="word">Info</span></button><button class="btn" id="factsBtn">💡 <span class="word">Fun Facts</span></button><button class="btn" id="labelBtn">🏷 <span class="word">Features</span></button><button class="btn" id="gridBtn">⌖ <span class="word">Grid</span></button><button class="btn" id="measureBtn">↔ <span class="word">Measure</span></button><button class="btn" id="crosshairBtn">＋ <span class="word">Crosshair</span></button></div></div>
 <div id="phaseHelp" class="phaseHelpPanel"><button class="close" id="phaseHelpClose">×</button><h3>MOON PHASES</h3><div class="phaseIntro">The Moon is always half illuminated by the Sun. Its phase is the portion of that sunlit half visible from Earth. A complete phase cycle takes about 29.5 days.</div><div class="phaseGrid"><div><b>🌑 New Moon</b><span>Near 0% visible illumination</span></div><div><b>🌒 Waxing Crescent</b><span>Illuminated portion is growing</span></div><div><b>🌓 First Quarter</b><span>About half illuminated</span></div><div><b>🌔 Waxing Gibbous</b><span>More than half and growing</span></div><div><b>🌕 Full Moon</b><span>Nearly the whole visible disk illuminated</span></div><div class="current"><b>🌖 Waning Gibbous</b><span>This image · more than half and shrinking</span></div><div><b>🌗 Last Quarter</b><span>About half and shrinking</span></div><div><b>🌘 Waning Crescent</b><span>Thin crescent before New Moon</span></div></div><div class="small">Waxing = illumination is growing · Waning = shrinking · Gibbous = more than half illuminated.</div></div><div class="panel" id="info">
 <button class="close infoClose" id="closeInfo" type="button" aria-label="Close observation info">×</button>
@@ -717,5 +718,20 @@ if(window.visualViewport){
 window.addEventListener('orientationchange',()=>{
   setTimeout(syncVisualViewportTop,120);
 });
+
+
+// Prevent accidental browser/page zoom while preserving BQAstro's own globe interaction.
+['gesturestart','gesturechange','gestureend'].forEach(type=>{
+  document.addEventListener(type,e=>e.preventDefault(),{passive:false});
+});
+document.addEventListener('touchmove',e=>{
+  if(e.touches&&e.touches.length>1)e.preventDefault();
+},{passive:false});
+let lastPageTouchEnd=0;
+document.addEventListener('touchend',e=>{
+  const now=Date.now();
+  if(now-lastPageTouchEnd<=300)e.preventDefault();
+  lastPageTouchEnd=now;
+},{passive:false});
 
 </script></body></html>
