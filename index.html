@@ -2,7 +2,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#000"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
-<title>BQAstro Lunar Globe — v4.0.34</title>
+<title>BQAstro Lunar Globe — v4.0.36</title>
 <style>
 :root{--gold:#f5c84c;--line:rgba(255,255,255,.16);--glass:rgba(8,10,13,.48);--glass2:rgba(8,10,13,.72);--muted:#aeb5bf}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -297,7 +297,7 @@ html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit
 }
 
 
-/* v4.0.34: keep Lunar Features inside the viewport and allow dragging */
+/* v4.0.36: keep Lunar Features inside the viewport and allow dragging */
 #filters{
   position:fixed!important;
   left:12px!important;
@@ -357,7 +357,7 @@ html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit
 }
 
 
-/* v4.0.34: Features panel defaults bottom-right; minimized controls no longer overlap */
+/* v4.0.36: Features panel defaults bottom-right; minimized controls no longer overlap */
 #filters{
   left:auto!important;
   right:12px!important;
@@ -401,7 +401,7 @@ html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit
 }
 
 
-/* v4.0.34: identical Features-panel move/minimize button sizing */
+/* v4.0.36: identical Features-panel move/minimize button sizing */
 #filters .featuresDragHandle,
 #filters .featuresMinBtn{
   box-sizing:border-box!important;
@@ -423,7 +423,7 @@ html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit
 }
 
 
-/* v4.0.34: fix minimized Lunar Features control clipping */
+/* v4.0.36: fix minimized Lunar Features control clipping */
 #filters.minimized{
   min-height:30px!important;
   padding:6px 64px 6px 10px!important;
@@ -468,7 +468,7 @@ html,body{touch-action:none!important;overscroll-behavior:none!important;-webkit
 }
 
 
-/* v4.0.34 image layers */
+/* v4.0.36 image layers */
 #layersPanel{right:16px;top:58px;width:236px;display:none;z-index:96}
 #layersPanel.show{display:block}
 .layerRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.08)}
@@ -493,7 +493,7 @@ window.addEventListener('unhandledrejection',function(e){
 });
 </script></head><body>
 <div id="loading">Loading full-resolution BQAstro lunar mosaic…</div><canvas id="c"></canvas><canvas id="gridCanvas"></canvas><canvas id="measureCanvas"></canvas><div id="crosshair"></div><div id="gridLabels"></div><div id="cardinals"></div><div id="labels"></div>
-<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon <button id="phaseHelpBtn" class="phaseHelpBtn" type="button" title="Moon phase guide" aria-label="Open Moon phase guide">?</button></span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.34</div></div>
+<div class="top"><div class="brand"><div><b>BQAstro</b> &nbsp;|&nbsp; <span class="phase">Waning Gibbous Moon <button id="phaseHelpBtn" class="phaseHelpBtn" type="button" title="Moon phase guide" aria-label="Open Moon phase guide">?</button></span></div><div class="sub">01 Sep 2026 · 01:50–02:15 SGT · 83-panel mosaic · v4.0.36</div></div>
 <div class="actions"><button class="btn" id="layersBtn">◫ <span class="word">Layers</span></button><button class="btn" id="infoBtn">ⓘ <span class="word">Info</span></button><button class="btn" id="factsBtn">💡 <span class="word">Fun Facts</span></button><button class="btn" id="labelBtn">🏷 <span class="word">Features</span></button><button class="btn" id="gridBtn">⌖ <span class="word">Grid</span></button><button class="btn" id="measureBtn">↔ <span class="word">Measure</span></button><button class="btn" id="crosshairBtn">＋ <span class="word">Crosshair</span></button></div></div>
 <div id="layerTitleCard" aria-live="polite"><div class="ltcKicker">Viewing layer</div><div class="ltcTitle" id="layerTitle">Both · BQAstro Photo + LRO Reference</div><div class="ltcSub" id="layerSubtitle">BQAstro photo where available · LRO fills the rest</div></div>
 <div class="panel" id="layersPanel"><h3>IMAGE LAYERS</h3>
@@ -581,9 +581,19 @@ let buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.AR
 let tex=gl.createTexture();
 function setupTexture(t,img){gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);}
 const lroTextures=[gl.createTexture(),gl.createTexture(),gl.createTexture(),gl.createTexture()];
-const imageDefs=[['moon_fullres.jpg?v=4.0.34',tex],['lro_farside_west.jpg?v=4.0.34',lroTextures[0]],['lro_nearside_west.jpg?v=4.0.34',lroTextures[1]],['lro_nearside_east.jpg?v=4.0.34',lroTextures[2]],['lro_farside_east.jpg?v=4.0.34',lroTextures[3]]];
+// v4.0.36 mobile compatibility: only LRO uses smaller textures on phones/tablets.
+// BQAstro always uses the original moon_fullres.jpg without any resolution reduction.
+const maxTextureSize=gl.getParameter(gl.MAX_TEXTURE_SIZE);
+const coarsePointer=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches;
+const mobileUA=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+const useMobileTextures=coarsePointer||mobileUA||maxTextureSize<10000;
+const fullLRODefs=[['lro_farside_west.jpg?v=4.0.36',lroTextures[0]],['lro_nearside_west.jpg?v=4.0.36',lroTextures[1]],['lro_nearside_east.jpg?v=4.0.36',lroTextures[2]],['lro_farside_east.jpg?v=4.0.36',lroTextures[3]]];
+const mobileLRODefs=[['lro_farside_west_mobile.jpg?v=4.0.36',lroTextures[0]],['lro_nearside_west_mobile.jpg?v=4.0.36',lroTextures[1]],['lro_nearside_east_mobile.jpg?v=4.0.36',lroTextures[2]],['lro_farside_east_mobile.jpg?v=4.0.36',lroTextures[3]]];
+const imageDefs=[['moon_fullres.jpg?v=4.0.36',tex],...(useMobileTextures?mobileLRODefs:fullLRODefs)];
+const loadingEl=document.getElementById('loading');
+if(loadingEl)loadingEl.textContent=useMobileTextures?'Loading full-resolution BQAstro photo + mobile-optimized LRO…':'Loading full-resolution lunar textures…';
 let loadedTextures=0;
-imageDefs.forEach(([src,t])=>{const im=new Image();im.onload=()=>{setupTexture(t,im);loadedTextures++;if(loadedTextures===imageDefs.length){document.getElementById('loading')?.remove();draw();}};im.onerror=()=>{document.getElementById('loading').textContent='Could not load '+src.split('?')[0]+' — check the GitHub upload and filename.';};im.src=src;});
+imageDefs.forEach(([src,t])=>{const im=new Image();im.onload=()=>{try{setupTexture(t,im);}catch(err){if(loadingEl)loadingEl.textContent='This device could not allocate the lunar texture. Try closing other tabs and reload.';console.error(err);return;}loadedTextures++;if(loadedTextures===imageDefs.length){loadingEl?.remove();draw();}};im.onerror=()=>{if(loadingEl)loadingEl.textContent='Could not load '+src.split('?')[0]+' — upload the v4.0.36 update files to GitHub.';};im.src=src;});
 
 function defaultZoom(){return innerHeight>innerWidth ? 0.72 : 0.82}
 let Y=0,P=0,Z=defaultZoom(),labelsOn=false,currentCat='All',density=1,gridOn=false,measureOn=false,measurePts=[];

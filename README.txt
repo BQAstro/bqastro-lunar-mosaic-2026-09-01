@@ -1,4 +1,4 @@
-BQAstro Lunar Globe — v4.0.34
+BQAstro Lunar Globe — v4.0.36
 
 MOBILE LUNAR FEATURES PANEL
 - Reduced the Lunar Features panel width on phones to a compact right-side drawer.
@@ -38,8 +38,18 @@ v4.0.33
 - LRO source: USGS/ASU LROC WAC Global Morphology Mosaic 100m, June 2013.
 
 
-v4.0.34
+v4.0.36
 - Added a persistent live Viewing Layer title card.
 - Title card automatically shows Both, BQAstro Photo, LRO Reference, or No imagery as layer switches change.
 - Extended the latitude/longitude grid across the complete 360° lunar globe, so the same grid appears on the farside when the Moon is rotated.
 - Preserved all v4.0.33 LRO/BQAstro layer controls and existing viewer features.
+
+
+v4.0.36 LRO-ONLY MOBILE COMPATIBILITY
+- Automatically detects mobile/coarse-pointer devices and WebGL maximum texture size.
+- BQAstro always uses the existing original moon_fullres.jpg at full resolution on desktop and mobile.
+- Mobile optimization applies ONLY to LRO: four 2048 x 4096 LRO fallback tiles.
+- Desktop retains the existing full-resolution textures.
+- Service worker no longer pre-caches the large lunar textures during installation; textures cache on demand.
+- Upload the five new *_mobile.jpg files together with index.html, sw.js, manifest.webmanifest and README.txt.
+- Existing full-resolution JPGs and icons do not need to be re-uploaded.
